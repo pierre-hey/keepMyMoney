@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title>Login</title>
+</head>
+<body>
+<!--<nav th:fragment="header">
+    <div>
+        <a th:href="@{/}">Registration and Login System</a>
+    </div>
+</nav>-->
+<header th:replace="~{fragments/header :: header}"></header>
+
+
+<div class="flex-container-center">
+
+    <div th:if="${param.error}">
+        <div>Identifiant ou mot de passe incorrect</div>
+    </div>
+    <div th:if="${param.logout}">
+        <div>Vous avez été déconnecté</div>
+    </div>
+
+
+    <div class="row-login-form">
+        <h1>Se connecter</h1>
+        <div class="flex-login-item">
+            <form method="post" th:action="@{/login}" role="form">
+                <div>
+                    <label for="login" hidden="hidden"> Identifiant </label>
+                    <input type="text" id="login" name="login" placeholder="Identifiant"/>
+                </div>
+
+                <div>
+                    <label for="password" hidden="hidden"> Mot de passe </label>
+                    <input type="password" id="password" name="password" placeholder="Mot de passe"/>
+                </div>
+
+                <div>
+                    <button type="submit">Se connecter</button>
+                </div>
+                <span>
+                        <a href="#"></a>
+                    </span>
+            </form>
+        </div>
+        <div class="flex-item">Pas de compte ?</div>
+        <div class="flex-item"><a href="#">Créer un compte</a></div>
+    </div>
+</div>
+</body>
+</html>
