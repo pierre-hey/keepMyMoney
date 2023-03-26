@@ -42,6 +42,7 @@ public class SpringSecurityConfig {
                                 .requestMatchers("/register/**").permitAll()
                                 // Autorise tout le monde
                                 .requestMatchers("/poc/all").permitAll()
+                                .requestMatchers("/magicButton").permitAll()
                                 // Autorise uniquement les utilisateurs connectés
                                 .requestMatchers("/poc/auth").authenticated()
                                 // Autorise uniquement les utilisateurs connectés avec le role "ADMIN"

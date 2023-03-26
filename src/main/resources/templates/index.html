@@ -11,5 +11,8 @@
 <header th:replace="~{fragments/header :: header}"></header>
 <h1>Bienvenue sur Keep My Money</h1>
 
+<form th:action="@{/magicButton}" method="post">
+    <button type="submit">Magic Button</button>
+</form>
 </body>
 </html>
