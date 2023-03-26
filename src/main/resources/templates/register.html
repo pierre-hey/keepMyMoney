@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title>Register</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+
+
+<div class="flex-container-center">
+
+    <div th:if="${param.success}">
+        <div>Compte créé avec succès</div>
+    </div>
+
+
+    <div class="row-login-form">
+        <h1>Créer un compte</h1>
+        <div class="flex-login-item">
+            <form method="post" role="form" th:action="@{/register/save}" th:object="${userDto}">
+
+                <div>
+                    <label for="login" hidden="hidden"> Identifiant </label>
+                    <input type="text" id="login" name="login" placeholder="Identifiant"/>
+                    <p th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></p>
+                </div>
+
+                <div>
+                    <label for="password" hidden="hidden"> Mot de passe </label>
+                    <input type="password" id="password" name="password" placeholder="Mot de passe"/>
+                    <p th:each="error : ${#fields.errors('matchingPassword')}" th:text="${error}">Validation error</p>
+                    <p th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>
+                </div>
+
+                <div>
+                    <label for="matchingPassword" hidden="hidden"> Valider le mot de passe</label>
+                    <input id="matchingPassword" name="matchingPassword" placeholder="Valider le mot de passe"
+                           type="password"
+                           th:field="*{matchingPassword}"/>
+                    <p th:each="error : ${#fields.errors('matchingPassword')}" th:text="${error}">Validation error</p>
+                    <p th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>
+                </div>
+
+                <div>
+                    <button type="submit">S'enregistrer</button>
+                </div>
+
+            </form>
+            <div class="flex-item">Vous avez déjà un compte ?</div>
+            <div class="flex-item"><a href="/static" th:href="@{/login}">Se connecter</a></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
