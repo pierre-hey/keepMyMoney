@@ -6,6 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,16 +29,23 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull(message = "Date obligatoire")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
+    @NotNull
+    @NotBlank(message = "Ne doit pas être vide")
     private String label;
 
+    @NotNull
+    @NotBlank(message = "Ne doit pas être vide")
     private Double amount;
 
+    @NotNull(message = "La catégorie est obligatoire")
     @ManyToOne
     private Category category;
 
+    @NotNull
     @ManyToOne
     private User user;
 

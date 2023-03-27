@@ -2,7 +2,10 @@ package fr.hey.keepmymoney.entities;
 
 import fr.hey.keepmymoney.entities.enumerations.EType;
 import fr.hey.keepmymoney.entities.enumerations.EPeriod;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,12 +31,16 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
     @NotBlank(message = "Ne doit pas être vide")
     private String label;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="type")
     @NotNull(message = "Le type de la catégorie est obligatoire")
     private EType type;
 
+    @Enumerated(EnumType.STRING)
     @NotNull(message = "La périodicité de la catégorie est obligatoire")
     private EPeriod period;
 
