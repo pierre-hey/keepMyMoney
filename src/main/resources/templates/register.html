@@ -11,49 +11,52 @@
 <header th:replace="~{fragments/header :: header}"></header>
 
 
-<div class="flex-container-center">
+<div class="wrapper">
+    <section class="content-center">
+        <div class="login-form">
+            <div th:if="${param.success}">
+                <div>Compte créé avec succès</div>
+            </div>
+            <div>
+                <h1>Créer un compte</h1>
+            </div>
+            <div>
+                <form method="post" role="form" th:action="@{/register/save}" th:object="${userDto}">
+                    <div>
+                        <label>Identifiant
+                            <input type="text" id="login" name="login" placeholder="Identifiant"/>
+                        </label>
+                        <p th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></p>
+                    </div>
 
-    <div th:if="${param.success}">
-        <div>Compte créé avec succès</div>
-    </div>
+                    <div>
+                        <label>Mot de passe
+                            <input type="password" id="password" name="password" placeholder="Mot de passe"/>
+                        </label>
+                        <p th:each="error : ${#fields.errors('password')}" th:text="${error}">Validation error</p>
+                        <p th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>
 
+                    </div>
+                    <div>
+                        <label for="matchingPassword">Valider le mot de passe
+                            <input type="password" id="matchingPassword" name="matchingPassword"
+                                   placeholder="Valider le mot de passe" th:field="*{matchingPassword}"/>
+                        </label>
+                        <p th:each="error : ${#fields.errors('matchingPassword')}" th:text="${error}">Validation
+                            error</p>
+                        <p th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>
+                    </div>
 
-    <div class="row-login-form">
-        <h1>Créer un compte</h1>
-        <div class="flex-login-item">
-            <form method="post" role="form" th:action="@{/register/save}" th:object="${userDto}">
-
-                <div>
-                    <label for="login" hidden="hidden"> Identifiant </label>
-                    <input type="text" id="login" name="login" placeholder="Identifiant"/>
-                    <p th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></p>
-                </div>
-
-                <div>
-                    <label for="password" hidden="hidden"> Mot de passe </label>
-                    <input type="password" id="password" name="password" placeholder="Mot de passe"/>
-                    <p th:each="error : ${#fields.errors('matchingPassword')}" th:text="${error}">Validation error</p>
-                    <p th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>
-                </div>
-
-                <div>
-                    <label for="matchingPassword" hidden="hidden"> Valider le mot de passe</label>
-                    <input id="matchingPassword" name="matchingPassword" placeholder="Valider le mot de passe"
-                           type="password"
-                           th:field="*{matchingPassword}"/>
-                    <p th:each="error : ${#fields.errors('matchingPassword')}" th:text="${error}">Validation error</p>
-                    <p th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>
-                </div>
-
-                <div>
-                    <button type="submit">S'enregistrer</button>
-                </div>
-
-            </form>
-            <div class="flex-item">Vous avez déjà un compte ?</div>
-            <div class="flex-item"><a href="/static" th:href="@{/login}">Se connecter</a></div>
+                    <div>
+                        <input type="submit" value="Créer un compte">
+                    </div>
+                </form>
+            </div>
+            <div class="login-form-item">
+                Vous avez déjà un compte ? <a th:href="@{/login}">Se connecter</a>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
+</div> <!-- /wrapper -->
 </body>
 </html>

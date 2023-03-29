@@ -8,39 +8,51 @@
 </head>
 <body>
 
-<header class="site-header" th:fragments="header">
-    <a class="logo" th:href="@{/index}">Keep my money</a>
-
-    <nav class="site-nav">
-        <ul class="site-nav-item">
-            <li  class="nav-item-li" sec:authorize="isAuthenticated()">
-                <a class="site-nav-link" href="#">Transactions</a>
+<header th:fragments="header">
+    <nav>
+        <!-- <div>
+            <a href="#">
+                <h3>Keep My Money</h3>
+            </a>
+        </div> -->
+        <ul>
+            <li class="header-title">
+                <a th:href="@{/index}">
+                    <h3>Keep My Money</h3>
+                </a>
             </li>
-            <li class="nav-item-li" sec:authorize="isAuthenticated()">
-                <a class="site-nav-link" href="#">Catégories</a>
+            <li class="deroulant" sec:authorize="isAuthenticated()">
+                <a href="/transaction/list.html">Transactions &ensp;</a>
+                <ul class="sous">
+                    <li><a href="#">Créer</a></li>
+                    <li><a href="#">todo</a></li>
+                </ul>
+            </li>
+            <li class="deroulant" sec:authorize="isAuthenticated()">
+                <a href="#">Catégories &ensp;</a>
+                <ul class="sous">
+                    <li><a href="#">Créer</a></li>
+                    <li><a href="#">todo</a></li>
+                </ul>
+            </li>
+            <li class="deroulant connexion" sec:authorize="isAuthenticated()">
+               <a th:href="@{/#}" sec:authentication="name"></a>
+                <ul class="sous">
+                    <li>
+                        <a th:href="@{/logout}">Déconnexion</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="deroulant connexion" sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}">&ensp;Connexion</a>
+                <ul class="sous">
+                    <li>
+                        <a th:href="@{/register}">S'enregistrer</a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </nav>
-
-    <div class="actions" sec:authorize="isAuthenticated()">
-        <ul class="site-nav-item">
-            <li class="nav-item-li">
-                <a class="site-nav-link" th:href="@{/index}" sec:authentication="name"></a>
-            </li>
-        </ul>
-        <a class="sign-out-link" th:href="@{/logout}">Déconnexion</a>
-    </div>
-
-    <div class="actions" sec:authorize="!isAuthenticated()">
-        <ul class="site-nav-item">
-            <li class="nav-item-li">
-                <a class="site-nav-link" th:href="@{/login}">Connexion</a>
-            </li>
-            <li class="nav-item-li">
-                <a class="site-nav-link" th:href="@{/register}">Créer un compte</a>
-            </li>
-        </ul>
-    </div>
 </header>
 </body>
 </html>

@@ -16,41 +16,42 @@
 <header th:replace="~{fragments/header :: header}"></header>
 
 
-<div class="flex-container-center">
+<div class="wrapper">
+    <section class="content-center">
+        <div class="login-form">
+            <div th:if="${param.error}">
+                <div>Identifiant ou mot de passe incorrect</div>
+            </div>
+            <div th:if="${param.logout}">
+                <div>Vous avez été déconnecté</div>
+            </div>
+            <div>
+                <h1>Se connecter</h1>
+            </div>
+            <div>
+                <form method="post" th:action="@{/login}" role="form">
+                    <div>
+                        <label>Identifiant
+                            <input type="text" id="login" name="login" placeholder="Login"/>
+                        </label>
+                    </div>
 
-    <div th:if="${param.error}">
-        <div>Identifiant ou mot de passe incorrect</div>
-    </div>
-    <div th:if="${param.logout}">
-        <div>Vous avez été déconnecté</div>
-    </div>
+                    <div>
+                        <label>Mot de passe
+                            <input type="password" id="password" name="password" placeholder="Password"/>
+                        </label>
+                    </div>
 
-
-    <div class="row-login-form">
-        <h1>Se connecter</h1>
-        <div class="flex-login-item">
-            <form method="post" th:action="@{/login}" role="form">
-                <div>
-                    <label for="login" hidden="hidden"> Identifiant </label>
-                    <input type="text" id="login" name="login" placeholder="Identifiant"/>
-                </div>
-
-                <div>
-                    <label for="password" hidden="hidden"> Mot de passe </label>
-                    <input type="password" id="password" name="password" placeholder="Mot de passe"/>
-                </div>
-
-                <div>
-                    <button type="submit">Se connecter</button>
-                </div>
-                <span>
-                        <a href="#"></a>
-                    </span>
-            </form>
+                    <div>
+                        <input type="submit" value="Se connecter">
+                    </div>
+                </form>
+            </div>
+            <div class="login-form-item">
+                Pas de compte ? <a th:href="@{/register}">Créer un compte</a>
+            </div>
         </div>
-        <div class="flex-item">Pas de compte ?</div>
-        <div class="flex-item"><a href="#">Créer un compte</a></div>
-    </div>
-</div>
+    </section>
+</div> <!-- /wrapper -->
 </body>
 </html>
