@@ -1,4 +1,4 @@
-package fr.hey.keepmymoney;
+package fr.hey.keepmymoney.repositories;
 
 import fr.hey.keepmymoney.dto.UserDto;
 import fr.hey.keepmymoney.entities.Category;
@@ -6,8 +6,6 @@ import fr.hey.keepmymoney.entities.Transaction;
 import fr.hey.keepmymoney.entities.User;
 import fr.hey.keepmymoney.entities.enumerations.EPeriod;
 import fr.hey.keepmymoney.entities.enumerations.EType;
-import fr.hey.keepmymoney.repositories.CategoryRepository;
-import fr.hey.keepmymoney.repositories.TransactionRepository;
 import fr.hey.keepmymoney.services.UserService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,8 @@
-package fr.hey.keepmymoney;
+package fr.hey.keepmymoney.repositories;
 
 import fr.hey.keepmymoney.entities.Category;
 import fr.hey.keepmymoney.entities.enumerations.EPeriod;
 import fr.hey.keepmymoney.entities.enumerations.EType;
-import fr.hey.keepmymoney.repositories.CategoryRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
