@@ -575,10 +575,22 @@ table.money-table tfoot tr:last-child{
     background: linear-gradient(to bottom, #404040 0%, #191919 66%, #000000 100%); */
     /* border-bottom: 2px solid #444444; */
 }
-/* Fin Tableau /*
+/* Fin Tableau */
 
 
+radio-group {
+    display: flex;
+    flex-direction: column;
 
+align-self: flex-start;
+    align-items: flex-start;
+    justify-content: flex-start;
+    justify-items: flex-start;
+    align-content: flex-start;
+
+    border: 1px solid;
+    border-radius: 25px;
+}
 
 
 

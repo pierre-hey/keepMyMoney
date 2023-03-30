@@ -59,7 +59,7 @@ public interface TransactionService {
      * @param dateMonth mois
      * @param dateYear  année
      * @param userId    id utilisateur
-     * @return List de transactions
+     * @return Liste de transactions
      */
     List<Transaction> findAllTransactionsByMonthAndDateAndUserId(short dateMonth, int dateYear, Integer userId);
 

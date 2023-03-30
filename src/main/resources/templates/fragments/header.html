@@ -3,7 +3,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="utf-8">
-    <title>Title</title>
+    <title>KeepMyMoney</title>
 
 </head>
 <body>
@@ -29,9 +29,9 @@
                 </ul>
             </li>
             <li class="deroulant" sec:authorize="isAuthenticated()">
-                <a href="#">Catégories &ensp;</a>
+                <a th:href="@{/categories}">Catégories &ensp;</a>
                 <ul class="sous">
-                    <li><a href="#">Créer</a></li>
+                    <li><a th:href="@{/categories/add}">Créer</a></li>
                     <li><a href="#">todo</a></li>
                 </ul>
             </li>

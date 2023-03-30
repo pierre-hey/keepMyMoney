@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title>KeepMyMoney</title>
+
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+
+
+<div class="wrapper">
+    <div class="content-menu">
+        <form>
+            <h2>Tri</h2>
+            <label>Nom
+                <input type="text">
+            </label>
+            <th:block th:each="type : ${T(fr.hey.keepmymoney.entities.enumerations.EType).values()}">
+                <label th:for="${{type}}" th:text="${type.getDisplayValue()}"></label>
+                <input type="radio" th:id="${{type}}" th:value="${{type}}"/>
+            </th:block>
+            <label> Périodicité
+                <select>
+                    <option th:each="period : ${T(fr.hey.keepmymoney.entities.enumerations.EPeriod).values()}"
+                            th:value="${period}" th:text="${period.getDisplayValue()}">
+                    </option>
+                </select>
+            </label>
+
+
+            <input type="submit">
+        </form>
+    </div>
+
+
+    <section class="content">
+
+        <table class="money-table">
+            <thead>
+            <tr>
+                <th class="th-date">Id</th>
+                <th class="th-desi">Label</th>
+                <th class="th-dep">Type</th>
+                <th class="th-res">Périodicité</th>
+                <th class="th-act" colspan="2">Action</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr class="td-foot">
+                <td colspan="6">
+                    <div class="links">
+                        <a href="#">&laquo;</a>
+                        <a class="active" href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">&raquo;</a>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr th:each="category : ${categoryList}">
+                <td th:text="${category.id}"></td>
+                <td><a th:href="@{categories/detail(id=${category.id})}"
+                       th:text="${category.label}"></a></td>
+                <td th:text="${category.type.getDisplayValue()}"></td>
+                <td th:text="${category.period.getDisplayValue()}"></td>
+                <td>M</td>
+                <td>X</td>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </section>
+</div> <!-- /wrapper -->
+
+
+
+
+
+
+
+</body>
+</html>

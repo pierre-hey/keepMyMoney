@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+</head>
+<body>
+
+<h1>Ajouter une nouvelle catégorie</h1>
+
+
+<div th:fragment="categoryForm" th:object="${category}">
+        <h1 th:text="${category.label} == null ? 'Créer une nouvelle catégorie' : 'Modifier la catégorie : ' + *{label}"></h1>
+    <div>
+        <label> Nom
+            <input type="text" th:field="*{label}">
+        </label>
+        <p th:if="${#fields.hasErrors('label')}" th:errors="*{label}"></p>
+    </div>
+
+    <div class="radio-group">
+        <th:block th:each="type : ${T(fr.hey.keepmymoney.entities.enumerations.EType).values()}">
+            <label th:for="${{type}}" th:text="${type.getDisplayValue()}"></label>
+            <input type="radio"
+                   th:id="${{type}}" th:value="${{type}}"
+                   th:field="*{type}"/>
+        </th:block>
+        <p th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></p>
+    </div>
+
+    <div>
+        <label> Type
+            <select name="period">
+                <option th:each="period : ${T(fr.hey.keepmymoney.entities.enumerations.EPeriod).values()}"
+                        th:value="${period}" th:text="${period.getDisplayValue()}">
+                </option>
+            </select>
+        </label>
+        <p th:if="${#fields.hasErrors('period')}" th:errors="*{period}"></p>
+    </div>
+
+    <input type="submit" value="Enregistrer">
+
+</div>
+</body>
+</html>
