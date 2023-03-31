@@ -18,12 +18,21 @@ public interface TransactionService {
     void createTransaction(Transaction transaction);
 
     /**
-     * Recherche un transaction par son id
+     * Recherche une transaction par son id
      *
      * @param id id
      * @return Transaction
      */
     Transaction findTransactionById(Integer id);
+
+    /**
+     * Recherche une transaction par son id et l'id de l'utilisateur
+     *
+     * @param transactionId id transaction
+     * @param userId        id utilisateur
+     * @return Transaction
+     */
+    Transaction findTransactionByIdAndUserId(Integer transactionId, Integer userId);
 
     /**
      * Recherche toutes les transactions pour un utilisateur
@@ -74,7 +83,8 @@ public interface TransactionService {
 
     /**
      * Recherche les transactions d'un utilisateur à partir d'un label
-     * @param label label
+     *
+     * @param label  label
      * @param userId id utilisateur
      * @return Liste de transactions
      */

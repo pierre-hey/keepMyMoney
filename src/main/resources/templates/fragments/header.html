@@ -22,9 +22,9 @@
                 </a>
             </li>
             <li class="deroulant" sec:authorize="isAuthenticated()">
-                <a href="/transaction/list.html">Transactions &ensp;</a>
+                <a th:href="@{/transactions}">Transactions &ensp;</a>
                 <ul class="sous">
-                    <li><a href="#">Créer</a></li>
+                    <li><a th:href="@{/transactions/add}">Créer</a></li>
                     <li><a href="#">todo</a></li>
                 </ul>
             </li>

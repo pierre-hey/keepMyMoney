@@ -52,5 +52,6 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,
             orphanRemoval = true, mappedBy ="user")
+    @ToString.Exclude
     private List<Transaction> transactions = new ArrayList<>();
 }

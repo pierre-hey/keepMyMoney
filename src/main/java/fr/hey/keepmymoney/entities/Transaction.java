@@ -45,7 +45,6 @@ public class Transaction {
     @ManyToOne
     private Category category;
 
-    @NotNull
     @ManyToOne
     private User user;
 

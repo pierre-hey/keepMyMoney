@@ -470,7 +470,7 @@ table.money-table {
     /* border: 1px solid #666666; */
     background-color: rgb(59, 59, 59);
     width: 100%;
-    height: 500px;
+    height: 50px;
     text-align: left;
     border-collapse: collapse;
     border-spacing: 0;
@@ -592,5 +592,10 @@ align-self: flex-start;
     border-radius: 25px;
 }
 
-
+.spent-text{
+    color: red;
+}
+.income-text{
+    color: #00ff15;
+}
 

@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
+    Transaction findByIdAndUserId(Integer transactionId, Integer userId);
     List<Transaction> findAllByUserId(Integer userId);
 
     List<Transaction> findAllByCategoryIdAndUserId(Integer categoryId, Integer userId);

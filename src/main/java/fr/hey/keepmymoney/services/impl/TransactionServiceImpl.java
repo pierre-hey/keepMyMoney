@@ -30,6 +30,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public Transaction findTransactionByIdAndUserId(Integer transactionId, Integer userId) {
+        return transactionRepository.findByIdAndUserId(transactionId, userId);
+    }
+
+    @Override
     public List<Transaction> findAllTransactionsByUserId(Integer userId) {
         return transactionRepository.findAllByUserId(userId);
     }
@@ -46,8 +51,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> findAllTransactionsByMonthAndDateAndUserId(short dateMonth, int dateYear, Integer userId) {
-       return transactionRepository.findAllByDateMonthAndDateYearAndUserId(dateMonth, dateYear, userId);
-     //   return null;
+        return transactionRepository.findAllByDateMonthAndDateYearAndUserId(dateMonth, dateYear, userId);
+        //   return null;
     }
 
     @Override
@@ -63,6 +68,10 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction updateTransaction(Transaction transaction) {
+        /*
+        TODO pour les transaction avec période != ponctuelle => on modifie les transactions ultérieures à la date du jour
+            ajouter un bool pour détecter si on modifie uniquement la valeur de la transaction N ou si c'est pour celles du futurs ?
+         */
         return transactionRepository.save(transaction);
     }
 
