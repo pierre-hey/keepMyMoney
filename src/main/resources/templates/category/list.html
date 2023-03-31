@@ -68,8 +68,21 @@
                        th:text="${category.label}"></a></td>
                 <td th:text="${category.type.getDisplayValue()}"></td>
                 <td th:text="${category.period.getDisplayValue()}"></td>
-                <td>M</td>
-                <td>X</td>
+                <td>
+                    <a th:href="@{categories/detail(id=${category.id})}">
+                        <img class="icon icon-search"
+                             src="/icons/search.svg"
+                             alt="loupe">
+                    </a>
+
+                </td>
+                <td>
+                    <a th:href="@{categories/delete(id=${category.id})}">
+                        <img class="icon icon-trash"
+                             src="/icons/trash.svg"
+                             alt="poubelle">
+                    </a>
+                </td>
             </tr>
 
             </tbody>
@@ -77,11 +90,6 @@
 
     </section>
 </div> <!-- /wrapper -->
-
-
-
-
-
 
 
 </body>

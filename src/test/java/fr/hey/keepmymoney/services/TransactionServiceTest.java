@@ -73,7 +73,7 @@ public class TransactionServiceTest {
         transaction.setUser(user);
         transaction.setAmount(1800.00);
         transaction.setDate(LocalDate.now());
-        transactionService.createTransaction(transaction);
+        transactionService.createTransactionWithPeriod(transaction);
         logger.info(String.format("Transaction ajoutée : %s", transaction));
         transactionsSize++;
 
@@ -112,7 +112,7 @@ public class TransactionServiceTest {
         transaction.setUser(user);
         transaction.setAmount(1800.00);
         transaction.setDate(LocalDate.now());
-        transactionService.createTransaction(transaction);
+        transactionService.createTransactionWithPeriod(transaction);
         transaction.setAmount(54000.00);
         logger.info(String.format("Transaction ajoutée : %s", transaction));
 

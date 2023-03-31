@@ -11,11 +11,16 @@ import java.util.List;
 public interface TransactionService {
 
     /**
-     * Créé une transaction
+     * Créé des transactions en fonction de leurs périodes
      *
      * @param transaction transaction
      */
-    void createTransaction(Transaction transaction);
+    void createTransactionWithPeriod(Transaction transaction);
+
+    /**
+     * Créé plusieurs transactions
+     */
+    void createAllTransactions(List<Transaction> transactionList);
 
     /**
      * Recherche une transaction par son id

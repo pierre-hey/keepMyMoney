@@ -82,12 +82,30 @@
       <tr th:each="transaction : ${transactionList}" th:object="${transaction}">
         <td th:text="*{date}"></td>
         <td th:text="*{label}"></td>
-        <td class="spent-text" th:text="*{category.type == T(fr.hey.keepmymoney.entities.enumerations.EType).SPENT}? *{amount} "></td>
-        <td  class="income-text" th:text="*{category.type == T(fr.hey.keepmymoney.entities.enumerations.EType).INCOME}? *{amount} "></td>
+        <td class="spent-text"
+            th:text="*{category.type == T(fr.hey.keepmymoney.entities.enumerations.EType).SPENT}? *{amount} ">
+        </td>
+        <td  class="income-text"
+             th:text="*{category.type == T(fr.hey.keepmymoney.entities.enumerations.EType).INCOME}? *{amount} ">
+        </td>
         <td th:text="*{category.label}"></td>
         <td th:text="*{category.period.getDisplayValue()}"></td>
-        <td><a th:href="@{transactions/detail(id=${transaction.id})}">M</a></td>
-        <td>X</td>
+        <td>
+          <a th:href="@{transactions/detail(id=${transaction.id})}">
+            <img class="icon icon-search"
+                 src="/icons/search.svg"
+                 alt="loupe">
+          </a>
+
+        </td>
+        <td>
+          <a th:href="@{transactions/delete(id=${transaction.id})}">
+            <img class="icon icon-trash"
+                 src="/icons/trash.svg"
+                 alt="poubelle">
+          </a>
+        </td>
+
       </tr>
       </tbody>
     </table>

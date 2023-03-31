@@ -1,13 +1,17 @@
 package fr.hey.keepmymoney.services.impl;
 
 import fr.hey.keepmymoney.entities.Transaction;
+import fr.hey.keepmymoney.entities.enumerations.EPeriod;
 import fr.hey.keepmymoney.repositories.TransactionRepository;
 import fr.hey.keepmymoney.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -20,8 +24,77 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void createTransaction(Transaction transaction) {
-        transactionRepository.save(transaction);
+    public void createTransactionWithPeriod(Transaction transaction) {
+        // A la création d'une transaction, en fonction de la périodicité du type, il faut créer les transactions des périodes suivantes sur 1 année
+        final int NUMBER_MONTH_IN_YEAR = 12;
+        final int NUMBER_WEEK_IN_YEAR = 52;
+        final int NUMBER_QUARTERLY = 4;
+        // Enregistre la 1ère transaction (identique au ponctuel/annuel)
+
+
+        switch (transaction.getCategory().getPeriod()) {
+            case PUNCTUAL -> transactionRepository.save(transaction);
+            // Par semaine - 52 fois par an
+            case WEEKLY -> createTransactionsWithDuration(transaction, NUMBER_WEEK_IN_YEAR);
+            // Mensuelle - 12 fois par an
+            case MONTHLY -> createTransactionsWithDuration(transaction, NUMBER_MONTH_IN_YEAR);
+            // Trimestrielle - 3 fois par an
+            case QUARTERLY -> createTransactionsWithDuration(transaction, NUMBER_QUARTERLY);
+            case BIMONTHLY -> {
+                // Semestrielle - 2 fois par an
+                // do some stuff
+            }
+            case ANNUAL -> {
+                // Par année
+                // do some stuff
+            }
+        }
+
+
+    }
+
+    private void createTransactionsWithDuration(Transaction transaction, int duration) {
+        List<Transaction> transactionList = new ArrayList<>();
+        LocalDate initialTransactionDate = transaction.getDate();
+        LocalDate startDate = transaction.getDate();
+
+        for (int i = 1; i < duration + 1; i++) {
+
+            Transaction nextTransaction = new Transaction();
+            LocalDate dateToCreate = startDate;
+            nextTransaction.setDate(dateToCreate);
+            if (transaction.getCategory().getPeriod().equals(EPeriod.MONTHLY)) {
+                String nameOfMonth = startDate.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE);
+                nameOfMonth = nameOfMonth.substring(0, 1).toUpperCase() + nameOfMonth.substring(1).toLowerCase();
+                nextTransaction.setLabel(transaction.getLabel() + " - " + nameOfMonth + " - " + i);
+            } else {
+                nextTransaction.setLabel(transaction.getLabel() + " - " + i);
+            }
+            nextTransaction.setAmount(transaction.getAmount());
+            nextTransaction.setCategory(transaction.getCategory());
+            nextTransaction.setUser(transaction.getUser());
+
+            transactionList.add(nextTransaction);
+
+            // Si la transaction est hebdomadaire, on ajoute 1 semaine à la date de la prochaine transaction
+            if (transaction.getCategory().getPeriod().equals(EPeriod.WEEKLY)) {
+                startDate = initialTransactionDate.plusWeeks(i);
+            }
+            // Si la transaction est mensuelle, on ajoute 1 mois à la date de la prochaine transaction
+            if (transaction.getCategory().getPeriod().equals(EPeriod.MONTHLY)) {
+                startDate = initialTransactionDate.plusMonths(i);
+            }
+            // Si la transaction est trimestrielle, on ajoute 3 mois à la date de la prochaine transaction
+            if (transaction.getCategory().getPeriod().equals(EPeriod.QUARTERLY)) {
+                startDate = dateToCreate.plusMonths(3);
+            }
+        }
+        transactionRepository.saveAll(transactionList);
+    }
+
+    @Override
+    public void createAllTransactions(List<Transaction> transactionList) {
+
     }
 
     @Override

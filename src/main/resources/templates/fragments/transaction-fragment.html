@@ -39,7 +39,9 @@
     <label> Type
       <select name="category">
         <option th:each="category : ${categoryList}"
-                th:value="${category.id}" th:text="${category.label + ' - ' +
+                th:value="${category.id}"
+                th:selected="*{category}"
+                th:text="${category.label + ' - ' +
                  category.type.getDisplayValue() + ' - ' +
                   category.period.getDisplayValue()}">
 

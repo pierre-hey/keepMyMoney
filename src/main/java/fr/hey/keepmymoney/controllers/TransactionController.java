@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -96,6 +95,7 @@ public class TransactionController {
                     transaction.setUser(user);
                     transactionService.updateTransaction(transaction);
                     redirAttrs.addFlashAttribute("msgFlash","Modification de la transaction réalisée avec succès");
+                    return "redirect:/transactions";
                 } else {
                     model.addAttribute("transaction", transaction);
                     model.addAttribute("categoryList", categoryService.findAllCategories());
@@ -105,7 +105,7 @@ public class TransactionController {
             }
         }
         redirAttrs.addFlashAttribute("msgFlash","Essayez-vous de modifier une transaction qui ne vous appartient pas ?");
-        return "/transaction/list";
+        return "redirect:/transactions";
     }
 
     @GetMapping("/add")
@@ -137,7 +137,7 @@ public class TransactionController {
 
             // TODO check contrainte bdd try/catch - exception bll
             redirAttrs.addFlashAttribute("msgFlash","Création de la transaction réalisée avec succès");
-            transactionService.createTransaction(transaction);
+            transactionService.createTransactionWithPeriod(transaction);
         }
 
         return "redirect:/transactions";
