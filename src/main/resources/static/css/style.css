@@ -12,6 +12,8 @@ body {
     flex: 1 0 auto; /* occupe la hauteur restante */
     display: flex; /* crée un contexte flex pour ses enfants */
     flex-direction: row; /* affichage horizontal */
+
+    height: 100vh;
 }
 nav {
     width: 10%;
@@ -31,6 +33,8 @@ nav {
     display: block; /* IE fix */
     flex: 01; /* occupe la largeur restante */
     background-color: rgb(59, 59, 59);
+
+    height: 100%;
 }
 
 .content-center {
@@ -69,6 +73,11 @@ nav {
 body {
     margin: 0;
     background: #ffffff;
+
+
+    height:100%;
+    width:100%;
+    padding:0;
 
     overflow: hidden;
 }
@@ -465,15 +474,25 @@ thead tr th {
     line-height: 40px;
     /*text-align: left;*/
 }
+.table-div{
+    width: 100%;
+    height: 95%;
 
+    display: block;
+    overflow-y: scroll;
+    overflow-x: auto;
+
+}
 table.money-table {
     /* border: 1px solid #666666; */
     background-color: rgb(59, 59, 59);
     width: 100%;
-    height: 50px;
+    height: 100%;
     text-align: left;
     border-collapse: collapse;
     border-spacing: 0;
+
+
 }
 /* Zebre, 1 ligne sur 2 */
 table.money-table tr:nth-child(even) {
@@ -496,6 +515,7 @@ table.money-table thead {
     background: linear-gradient(to bottom, #404040 0%, #191919 66%, #535151 100%); */
     background-color: rgb(40, 40, 40);
     border-bottom: 2px solid #444444;
+    z-index: 2;
 }
 table.money-table thead th {
     font-size: 16px;
@@ -509,13 +529,13 @@ table.money-table thead th {
 /*  */
 thead{
     position: sticky;
-    top: 5%;
+    top: 0;
 }
 .th-date{
-    width: 10%;
+    width: 15%;
 }
 .th-desi{
-    width: 45%;
+    width: 40%;
 }
 .th-dep{
     width:5%;
@@ -525,13 +545,13 @@ thead{
     width: 5%;
 }
 .th-cat{
-    width: 15%;
+    width: 20%;
 }
 .th-per{
     width:10%
 }
 .th-act{
-    width: 4%;
+    width: 5%;
     text-align: center;
 }
 
@@ -620,3 +640,39 @@ td > a {
 .icon-trash:hover{
     filter: invert(33%) sepia(100%) saturate(6337%) hue-rotate(353deg) brightness(91%) contrast(126%);
 }
+
+/* Message flash */
+
+.msg-flash {
+
+    text-align: center;
+    background-color: #565656;
+    color: #ff7a00;
+
+    /* Hide flash msg */
+    -moz-animation: hide-flash 0s ease-in 5s forwards;
+    /* Firefox */
+    -webkit-animation: hide-flash 0s ease-in 5s forwards;
+    /* Safari and Chrome */
+    -o-animation: hide-flash 0s ease-in 5s forwards;
+    /* Opera */
+    animation: hide-flash 0s ease-in 5s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+@keyframes hide-flash {
+    to {
+        width:0;
+        height:0;
+        overflow:hidden;
+    }
+}
+@-webkit-keyframes hide-flash {
+    to {
+        width:0;
+        height:0;
+        visibility:hidden;
+    }
+}
+
+/* Fin Message flash */

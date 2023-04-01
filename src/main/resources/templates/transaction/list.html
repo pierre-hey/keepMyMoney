@@ -10,7 +10,7 @@
 <body>
 <header th:replace="~{fragments/header :: header}"></header>
 
-<div th:text="${msgFlash} != null ? ${msgFlash}"></div>
+<div class="msg-flash" th:text="${msgFlash} != null ? ${msgFlash}"></div>
 
 <div class="wrapper">
   <div class="content-menu">
@@ -47,7 +47,7 @@
 
 
   <section class="content">
-
+<div class="table-div">
     <table class="money-table">
       <thead>
       <tr>
@@ -109,7 +109,7 @@
       </tr>
       </tbody>
     </table>
-
+</div>
   </section>
 </div> <!-- /wrapper -->
 </body>
