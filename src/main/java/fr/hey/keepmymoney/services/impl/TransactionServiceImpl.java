@@ -5,7 +5,11 @@ import fr.hey.keepmymoney.entities.enumerations.EPeriod;
 import fr.hey.keepmymoney.repositories.TransactionRepository;
 import fr.hey.keepmymoney.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -22,6 +26,7 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionServiceImpl(TransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
     }
+
 
     @Override
     public void createTransactionWithPeriod(Transaction transaction) {
@@ -55,14 +60,14 @@ public class TransactionServiceImpl implements TransactionService {
 
     private void createTransactionsWithDuration(Transaction transaction, int duration) {
         List<Transaction> transactionList = new ArrayList<>();
-        LocalDate initialTransactionDate = transaction.getDate();
-        LocalDate startDate = transaction.getDate();
+        LocalDate initialTransactionDate = transaction.getTransactionDate();
+        LocalDate startDate = transaction.getTransactionDate();
 
         for (int i = 1; i < duration + 1; i++) {
 
             Transaction nextTransaction = new Transaction();
             LocalDate dateToCreate = startDate;
-            nextTransaction.setDate(dateToCreate);
+            nextTransaction.setTransactionDate(dateToCreate);
             if (transaction.getCategory().getPeriod().equals(EPeriod.MONTHLY)) {
                 String nameOfMonth = startDate.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE);
                 nameOfMonth = nameOfMonth.substring(0, 1).toUpperCase() + nameOfMonth.substring(1).toLowerCase();
@@ -119,19 +124,20 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> findAllTransactionsBetweenDateAndUserId(LocalDate startDate, LocalDate endDate, Integer userId) {
-        return transactionRepository.findAllByDateBetweenAndUserId(startDate, endDate, userId);
+//        return transactionRepository.findAllByTransactionDateBetweenAndUserId(startDate, endDate, userId);
+        return null;
     }
 
     @Override
     public List<Transaction> findAllTransactionsByMonthAndDateAndUserId(short dateMonth, int dateYear, Integer userId) {
-        return transactionRepository.findAllByDateMonthAndDateYearAndUserId(dateMonth, dateYear, userId);
-        //   return null;
+//        return transactionRepository.findAllByTransactionDateMonthAndDateYearAndUserId(dateMonth, dateYear, userId);
+        return null;
     }
 
     @Override
     public List<Transaction> findAllTransactionsByYearAndUserId(int dateYear, Integer userId) {
-        return transactionRepository.findByDateYearAndUserId(dateYear, userId);
-//        return null;
+//        return transactionRepository.findByDateYearAndUserId(dateYear, userId);
+        return null;
     }
 
     @Override
@@ -152,4 +158,30 @@ public class TransactionServiceImpl implements TransactionService {
     public void deleteTransaction(Transaction transaction) {
         transactionRepository.delete(transaction);
     }
+
+    @Override
+    public Page<Transaction> findTransactionWithSpec(String label, LocalDate transactionDate, Integer dateMonth, Integer dateYear, Integer userId, Pageable pageable) {
+        Specification<Transaction> spec = Specification.where((root, query, builder) -> builder.equal(root.get("user"), userId));
+
+        if (!ObjectUtils.isEmpty(label)) {
+            spec = spec.and((root, query, builder) -> builder.like(root.get("label"), "%" + label + "%"));
+        }
+
+        if (!ObjectUtils.isEmpty(transactionDate)) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("transactionDate"), transactionDate));
+        }
+
+        if (!ObjectUtils.isEmpty(dateYear)) {
+            spec = spec.and((root, query, builder) -> builder.equal(builder.function("year", Integer.class, root.get("transactionDate")), dateYear));
+        }
+
+        if (!ObjectUtils.isEmpty(dateMonth)) {
+            spec = spec.and((root, query, builder) -> builder.equal(builder.function("month", Integer.class, root.get("transactionDate")), dateMonth));
+        }
+
+
+        return transactionRepository.findAll(spec, pageable);
+    }
+
+
 }

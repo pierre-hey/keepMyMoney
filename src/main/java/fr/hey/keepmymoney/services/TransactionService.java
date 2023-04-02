@@ -1,6 +1,8 @@
 package fr.hey.keepmymoney.services;
 
 import fr.hey.keepmymoney.entities.Transaction;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -111,5 +113,17 @@ public interface TransactionService {
      */
     void deleteTransaction(Transaction transaction);
 
+
+    /**
+     * Recherche des transactions d'un utilisateur en fonction de différents critères
+     *
+     * @param label           filtre label
+     * @param transactionDate filtre date
+     * @param dateMonth       filtre mois
+     * @param dateYear        filtre année
+     * @param userId          filtre utilisateur
+     * @return Page de transaction
+     */
+    Page<Transaction> findTransactionWithSpec(String label, LocalDate transactionDate, Integer dateMonth, Integer dateYear, Integer userId, Pageable pageable);
 
 }

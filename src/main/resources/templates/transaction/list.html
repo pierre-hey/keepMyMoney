@@ -3,9 +3,9 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-  <meta charset="UTF-8">
-  <link th:href="@{/css/style.css}" rel="stylesheet"/>
-  <title>Register</title>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title>Register</title>
 </head>
 <body>
 <header th:replace="~{fragments/header :: header}"></header>
@@ -13,104 +13,159 @@
 <div class="msg-flash" th:text="${msgFlash} != null ? ${msgFlash}"></div>
 
 <div class="wrapper">
-  <div class="content-menu">
-    <form>
-      <label>Désignation
-        <input type="text">
-      </label>
-      <label>Date
-        <input type="date" name="date" id="">
-      </label>
-      <input type="month">
-<!--      <label> Mois
-        <select>
-          <option>
-            &#45;&#45; Sélectionner un mois &#45;&#45;
-          </option>
-          <option>
-            Janvier
-          </option>
-          <option>
-            Février
-          </option>
-          <option>
-            Mars
-          </option>
-        </select>
-      </label>-->
-      <label>Année
-        <input type="number" min="1900" max="2099" step="1" value="2016"/>
-      </label>
-      <input type="submit">
-    </form>
-  </div>
+    <div class="content-menu">
+        <form method="post" th:action="@{page}">
+            <label>Désignation
+                <input type="text" name="labelFilter"
+                th:value="${param.label != null} ? ${param.label[0]}">
+            </label>
+
+            <label> Catégorie
+                <select name="category">
+                    <option th:each="category : ${categoryList}"
+                            th:value="${category.id}"
+                            th:selected="*{category}"
+                            th:text="${category.label + ' - ' +
+                 category.type.getDisplayValue() + ' - ' +
+                  category.period.getDisplayValue()}">
+
+                    </option>
+                </select>
+            </label>
 
 
-  <section class="content">
-<div class="table-div">
-    <table class="money-table">
-      <thead>
-      <tr>
-        <th class="th-date">Date</th>
-        <th class="th-desi">Désignation</th>
-        <th class="th-dep">Dépense</th>
-        <th class="th-res">Ressource</th>
-        <th class="th-cat">Catégorie</th>
-        <th class="th-per">Périodicité</th>
-        <th class="th-act" colspan="2">Action</th>
-      </tr>
-      </thead>
-      <tfoot>
-      <tr class="td-foot">
-        <td colspan="2"></td>
-        <td>150</td>
-        <td>100</td>
-        <td>50</td>
-        <td colspan="3">
-          <div class="links">
-            <a href="#">&laquo;</a>
-            <a class="active" href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">&raquo;</a>
-          </div>
-        </td>
-      </tr>
-      </tfoot>
-      <tbody>
-      <tr th:each="transaction : ${transactionList}" th:object="${transaction}">
-        <td th:text="*{date}"></td>
-        <td th:text="*{label}"></td>
-        <td class="spent-text"
-            th:text="*{category.type == T(fr.hey.keepmymoney.entities.enumerations.EType).SPENT}? *{amount} ">
-        </td>
-        <td  class="income-text"
-             th:text="*{category.type == T(fr.hey.keepmymoney.entities.enumerations.EType).INCOME}? *{amount} ">
-        </td>
-        <td th:text="*{category.label}"></td>
-        <td th:text="*{category.period.getDisplayValue()}"></td>
-        <td>
-          <a th:href="@{transactions/detail(id=${transaction.id})}">
-            <img class="icon icon-search"
-                 src="/icons/search.svg"
-                 alt="loupe">
-          </a>
+            <label>Date
+                <input type="date"
+                       name="dateFilter"
+                       th:value="dateFilter">
+            </label>
+            <label>Mois
+            <input type="month">
+            <!--      <label> Mois
+                    <select>
+                      <option>
+                        &#45;&#45; Sélectionner un mois &#45;&#45;
+                      </option>
+                      <option>
+                        Janvier
+                      </option>
+                      <option>
+                        Février
+                      </option>
+                      <option>
+                        Mars
+                      </option>
+                    </select>
+                  </label>-->
+            </label>
+            <label>Année
+                <input type="number" name="yearFilter"
+                        min="2020" max="2099"
+                       step="1" value=""
+                       th:value="${param.year != null} ? ${param.year[0]}"/>
+            </label>
 
-        </td>
-        <td>
-          <a th:href="@{transactions/delete(id=${transaction.id})}">
-            <img class="icon icon-trash"
-                 src="/icons/trash.svg"
-                 alt="poubelle">
-          </a>
-        </td>
+            <label>Nombre par page
+                <select name="pageSizeFilter">
+                    <option th:value="5">5</option>
+                    <option th:value="10">10</option>
+                    <option th:value="15">15</option>
+                    <option th:value="20">20</option>
+                </select>
+            </label>
+            <input type="submit">
+        </form>
+    </div>
 
-      </tr>
-      </tbody>
-    </table>
-</div>
-  </section>
+
+    <section class="content">
+        <div class="table-div">
+            <table class="money-table">
+                <thead>
+                <tr>
+                    <th class="th-date">Date</th>
+                    <th class="th-desi">Désignation</th>
+                    <th class="th-dep">Dépense</th>
+                    <th class="th-res">Ressource</th>
+                    <th class="th-cat">Catégorie</th>
+                    <th class="th-per">Périodicité</th>
+                    <th class="th-act" colspan="2">Action</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr class="td-foot">
+                    <td colspan="2"></td>
+                    <td>150</td>
+                    <td>100</td>
+                    <td>50</td>
+                    <td colspan="3">
+                        <!--          <div class="links">-->
+                        <div class="links">
+                            <a class="noActive" th:if="${activePage - 1 > 0}"
+                               th:href="@{page(pageNo=${activePage - 1},
+
+                                pageSize=${param.pageSize != null && param.label[0] != ''} ? ${param.pageSize[0]} : null,
+                            label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
+                            year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null,
+                            month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null
+
+                               )}">&laquo;</a>
+                            <!-- <a class="active" href="#">1</a>-->
+                           <a th:href="@{page(pageNo=${pageNumber},
+                            pageSize=${param.pageSize != null && param.label[0] != ''} ? ${param.pageSize[0]} : null,
+                            label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
+                            year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null,
+                            month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null
+                             )}"
+                               th:each="pageNumber : ${pageNumbers}"
+                               th:text="${pageNumber != null} ? ${pageNumber}"
+                               th:class="${null != param.pageNo}?(${pageNumber.toString() == param.pageNo[0]} ? active : noActive) : noActive">
+                            </a>
+                            <a class="noActive"
+                               th:unless="${activePage >= totalPages}"
+                               th:href="@{page(pageNo=${activePage + 1},
+                                pageSize=${param.pageSize != null && param.label[0] != ''} ? ${param.pageSize[0]} : null,
+                            label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
+                            year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null,
+                            month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null
+                               )}">&raquo;</a>
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="transaction : ${transactionList}" th:object="${transaction}">
+                    <td th:text="*{getTransactionDate}"></td>
+                    <td th:text="*{label}"></td>
+                    <td class="spent-text"
+                        th:text="*{category.type == T(fr.hey.keepmymoney.entities.enumerations.EType).SPENT}? *{amount} ">
+                    </td>
+                    <td class="income-text"
+                        th:text="*{category.type == T(fr.hey.keepmymoney.entities.enumerations.EType).INCOME}? *{amount} ">
+                    </td>
+                    <td th:text="*{category.label}"></td>
+                    <td th:text="*{category.period.getDisplayValue()}"></td>
+                    <td>
+                        <a th:href="@{transactions/detail(id=${transaction.id})}">
+                            <img class="icon icon-search"
+                                 src="/icons/search.svg"
+                                 alt="loupe">
+                        </a>
+
+                    </td>
+                    <td>
+                        <a th:href="@{transactions/delete(id=${transaction.id})}">
+                            <img class="icon icon-trash"
+                                 src="/icons/trash.svg"
+                                 alt="poubelle">
+                        </a>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </div> <!-- /wrapper -->
 </body>
 </html>

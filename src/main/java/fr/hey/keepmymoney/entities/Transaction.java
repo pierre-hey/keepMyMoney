@@ -33,7 +33,7 @@ public class Transaction {
 
     @NotNull(message = "Date obligatoire")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
+    private LocalDate transactionDate;
 
     @NotBlank(message = "Ne doit pas être vide")
     private String label;
@@ -49,8 +49,8 @@ public class Transaction {
     private User user;
 
 
-    public Transaction(LocalDate date, String label, Double amount, Category category, User user) {
-        this.date = date;
+    public Transaction(LocalDate transactionDate, String label, Double amount, Category category, User user) {
+        this.transactionDate = transactionDate;
         this.label = label;
         this.amount = amount;
         this.category = category;

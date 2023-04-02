@@ -72,7 +72,7 @@ public class TransactionServiceTest {
         transaction.setLabel("Salaire du mois de mars");
         transaction.setUser(user);
         transaction.setAmount(1800.00);
-        transaction.setDate(LocalDate.now());
+        transaction.setTransactionDate(LocalDate.now());
         transactionService.createTransactionWithPeriod(transaction);
         logger.info(String.format("Transaction ajoutée : %s", transaction));
         transactionsSize++;
@@ -111,7 +111,7 @@ public class TransactionServiceTest {
         transaction.setLabel("Salaire du mois de mars");
         transaction.setUser(user);
         transaction.setAmount(1800.00);
-        transaction.setDate(LocalDate.now());
+        transaction.setTransactionDate(LocalDate.now());
         transactionService.createTransactionWithPeriod(transaction);
         transaction.setAmount(54000.00);
         logger.info(String.format("Transaction ajoutée : %s", transaction));

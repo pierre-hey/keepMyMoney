@@ -584,7 +584,6 @@ table.money-table tfoot .links {
 table.money-table tfoot .links a{
     display: inline-block;
     background: rgb(59, 59, 59);
-    color: #ffffff;
     padding: 2px 8px;
     border-radius: 5px;
 
@@ -599,6 +598,12 @@ table.money-table tfoot tr:last-child{
     background: -webkit-linear-gradient(top, #404040 0%, #191919 66%, #000000 100%);
     background: linear-gradient(to bottom, #404040 0%, #191919 66%, #000000 100%); */
     /* border-bottom: 2px solid #444444; */
+}
+.active{
+    color: #00ff15;
+}
+.noActive{
+    color: #FFFFFF;
 }
 /* Fin Tableau */
 
