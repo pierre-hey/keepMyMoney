@@ -1,7 +1,9 @@
 package fr.hey.keepmymoney.services.impl;
 
+import fr.hey.keepmymoney.entities.Category;
 import fr.hey.keepmymoney.entities.Transaction;
 import fr.hey.keepmymoney.entities.enumerations.EPeriod;
+import fr.hey.keepmymoney.entities.enumerations.EType;
 import fr.hey.keepmymoney.repositories.TransactionRepository;
 import fr.hey.keepmymoney.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,7 +162,10 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Page<Transaction> findTransactionWithSpec(String label, LocalDate transactionDate, Integer dateMonth, Integer dateYear, Integer userId, Pageable pageable) {
+    public Page<Transaction> findTransactionWithSpec(String label, Category category, EType type,
+                                                     LocalDate transactionDate,Integer dateMonth, Integer dateYear,
+                                                     Integer userId,
+                                                     Pageable pageable) {
         Specification<Transaction> spec = Specification.where((root, query, builder) -> builder.equal(root.get("user"), userId));
 
         if (!ObjectUtils.isEmpty(label)) {
@@ -178,8 +183,12 @@ public class TransactionServiceImpl implements TransactionService {
         if (!ObjectUtils.isEmpty(dateMonth)) {
             spec = spec.and((root, query, builder) -> builder.equal(builder.function("month", Integer.class, root.get("transactionDate")), dateMonth));
         }
-
-
+        if (!ObjectUtils.isEmpty(category)) {
+            spec = spec.and(((root, query, builder) -> builder.equal(root.get("category"), category)));
+        }
+        if (!ObjectUtils.isEmpty(type)) {
+            spec = spec.and(((root, query, builder) -> builder.equal(root.get("category").get("type"), type)));
+        }
         return transactionRepository.findAll(spec, pageable);
     }
 

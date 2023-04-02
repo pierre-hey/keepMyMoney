@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
-    <title>Register</title>
+    <title>KeepMyMoney</title>
 </head>
 <body>
 <header th:replace="~{fragments/header :: header}"></header>
@@ -21,14 +21,26 @@
             </label>
 
             <label> Catégorie
-                <select name="category">
+                <select name="categoryFilter">
+                    <option th:value="null">--Toutes catégories--</option>
                     <option th:each="category : ${categoryList}"
                             th:value="${category.id}"
-                            th:selected="*{category}"
-                            th:text="${category.label + ' - ' +
-                 category.type.getDisplayValue() + ' - ' +
-                  category.period.getDisplayValue()}">
+                            th:selected="${param.category != null} ? (${param.category[0] == category.id.toString()} ? ${category})"
+                            th:text="${category.label + ' - ' + category.type.getDisplayValue() + ' - ' + category.period.getDisplayValue()}">
+                    </option>
+                </select>
+            </label>
 
+            <label> Type
+                <select name="typeFilter">
+                    <option th:value="null">--Choisir un type--</option>
+                    <option th:each="t : ${T(fr.hey.keepmymoney.entities.enumerations.EType).values()}"
+                            th:value="${t}"
+
+                            th:selected="${param.type != null and param.type[0] == t.toString()} ? ${t}"
+                            th:text="${t.getDisplayValue()}">
+<!--                        th:selected="${param.type != null} ? (${param.type[0] == t.toString()} ? ${t})"-->
+<!--                        th:selected="${param.type != null} ? (${param.type[0] == ${type} ? ${type.value()})"-->
                     </option>
                 </select>
             </label>
@@ -39,24 +51,18 @@
                        name="dateFilter"
                        th:value="dateFilter">
             </label>
+
             <label>Mois
-            <input type="month">
-            <!--      <label> Mois
-                    <select>
-                      <option>
-                        &#45;&#45; Sélectionner un mois &#45;&#45;
-                      </option>
-                      <option>
-                        Janvier
-                      </option>
-                      <option>
-                        Février
-                      </option>
-                      <option>
-                        Mars
-                      </option>
-                    </select>
-                  </label>-->
+                <select name="monthFilter">
+                    <option th:value="null">--Choisir un mois--</option>
+                    <option th:each="monthSelector, statIndex : ${monthsSelectorList}"
+                            th:value="${statIndex.index + 1 }"
+                            th:selected="${param.month != null} ? (${param.month[0] == (statIndex.index + 1).toString()} ? ${monthSelector})"
+                            th:text="${monthSelector}">
+<!--                        th:selected="${param.pageSize != null} ? (${param.pageSize[0] == sizeSelector.toString()} ? ${sizeSelector})"-->
+                    </option>
+                </select>
+
             </label>
             <label>Année
                 <input type="number" name="yearFilter"
@@ -67,10 +73,11 @@
 
             <label>Nombre par page
                 <select name="pageSizeFilter">
-                    <option th:value="5">5</option>
-                    <option th:value="10">10</option>
-                    <option th:value="15">15</option>
-                    <option th:value="20">20</option>
+                    <option th:each="sizeSelector : ${pageSizeSelectorList}"
+                            th:value="${sizeSelector}"
+                            th:selected="${param.pageSize != null} ? (${param.pageSize[0] == sizeSelector.toString()} ? ${sizeSelector})"
+                            th:text="${sizeSelector}">
+                    </option>
                 </select>
             </label>
             <input type="submit">
@@ -103,20 +110,26 @@
                         <div class="links">
                             <a class="noActive" th:if="${activePage - 1 > 0}"
                                th:href="@{page(pageNo=${activePage - 1},
-
-                                pageSize=${param.pageSize != null && param.label[0] != ''} ? ${param.pageSize[0]} : null,
-                            label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
-                            year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null,
-                            month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null
+                                pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
+                                label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
+                                category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
+                                type=${param.type != null && param.type[0] != ''} ? ${param.type[0]} : null,
+                                date=${param.date != null && param.date[0] != ''} ? ${param.date[0]} : null,
+                                month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null,
+                                year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null
 
                                )}">&laquo;</a>
-                            <!-- <a class="active" href="#">1</a>-->
+
+<!--                            <p th:text="${param.pageSize}"></p><p>-&#45;&#45;&#45;&#45;</p> <p th:text="${param.pageSize[0]}"></p>-->
                            <a th:href="@{page(pageNo=${pageNumber},
-                            pageSize=${param.pageSize != null && param.label[0] != ''} ? ${param.pageSize[0]} : null,
-                            label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
-                            year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null,
-                            month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null
-                             )}"
+                                pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
+                                label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
+                                category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
+                                type=${param.type != null && param.type[0] != ''} ? ${param.type[0]} : null,
+                                date=${param.date != null && param.date[0] != ''} ? ${param.date[0]} : null,
+                                month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null,
+                                year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null
+                                )}"
                                th:each="pageNumber : ${pageNumbers}"
                                th:text="${pageNumber != null} ? ${pageNumber}"
                                th:class="${null != param.pageNo}?(${pageNumber.toString() == param.pageNo[0]} ? active : noActive) : noActive">
@@ -124,11 +137,15 @@
                             <a class="noActive"
                                th:unless="${activePage >= totalPages}"
                                th:href="@{page(pageNo=${activePage + 1},
-                                pageSize=${param.pageSize != null && param.label[0] != ''} ? ${param.pageSize[0]} : null,
-                            label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
-                            year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null,
-                            month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null
+                                pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
+                                label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
+                                category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
+                                type=${param.type != null && param.type[0] != ''} ? ${param.type[0]} : null,
+                                date=${param.date != null && param.date[0] != ''} ? ${param.date[0]} : null,
+                                month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null,
+                                year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null
                                )}">&raquo;</a>
+
                         </div>
                     </td>
                 </tr>
