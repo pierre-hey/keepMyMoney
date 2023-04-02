@@ -464,6 +464,20 @@ header{
 
 /* Tableau */
 
+table.money-table tbody {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+.money-table {
+    display:block;
+    table-layout: fixed;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.content{
+    display: block;
+}
 
 tbody td:last-child, thead th:last-child {
     border-right: none;
@@ -472,27 +486,16 @@ tbody td:last-child, thead th:last-child {
 thead tr th {
     height: 30px;
     line-height: 40px;
-    /*text-align: left;*/
 }
-.table-div{
-    width: 100%;
-    height: 95%;
 
-    display: block;
-    overflow-y: scroll;
-    overflow-x: auto;
-
-}
 table.money-table {
     /* border: 1px solid #666666; */
     background-color: rgb(59, 59, 59);
     width: 100%;
-    height: 100%;
+    height: 90vh;
     text-align: left;
     border-collapse: collapse;
     border-spacing: 0;
-
-
 }
 /* Zebre, 1 ligne sur 2 */
 table.money-table tr:nth-child(even) {
@@ -501,7 +504,7 @@ table.money-table tr:nth-child(even) {
 
 table.money-table td, table.money-table th {
     /* border: 1px solid #aaaaaa; */
-    padding: 3px 2px;
+    padding: 3px 2px 0 3px;
 }
 
 table.money-table tbody td {
@@ -522,20 +525,16 @@ table.money-table thead th {
     font-weight: bolder;
     color: #ffffff;
     text-align: center;
-
-    /* border-left: 2px solid #f5f0d0; */
-    /* border: 2px solid #f5f0d0; */
 }
-/*  */
 thead{
     position: sticky;
     top: 0;
 }
 .th-date{
-    width: 15%;
+    width: 5%;
 }
 .th-desi{
-    width: 40%;
+    width: 45%;
 }
 .th-dep{
     width:5%;
@@ -545,7 +544,7 @@ thead{
     width: 5%;
 }
 .th-cat{
-    width: 20%;
+    width: 10%;
 }
 .th-per{
     width:10%
@@ -555,50 +554,34 @@ thead{
     text-align: center;
 }
 
-
-/*  */
 table.money-table thead th:first-child {
     border-left: none;
 }
+.pagination{
+    position: sticky;
+    bottom: 0;
+    text-align: right;
+    background: #535151;
+    height: 5%;
 
-table.money-table tfoot {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: bolder;
     color: #FFFFFF;
-    background: #000000;
-    background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-    background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-    background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    padding: 12px;
     border-top: 2px solid #ff7300;
 }
-table.money-table tfoot td {
-    font-size: 16px;
-    padding: 12px;
-    font-weight: bolder;
-}
 
-table.money-table tfoot .links {
-    text-align: right;
-    font-size: 15px;
-}
-table.money-table tfoot .links a{
+.pagination a{
     display: inline-block;
     background: rgb(59, 59, 59);
-    padding: 2px 8px;
+    padding: 10px 10px;
+    margin-right: 5px;
     border-radius: 5px;
-
 }
-table.money-table tfoot .links a:hover{
+.pagination a:hover{
     color: #00ff15;
 }
 
-table.money-table tfoot tr:last-child{
-    background: #535151;
-    /* background: -moz-linear-gradient(top, #404040 0%, #191919 66%, #000000 100%);
-    background: -webkit-linear-gradient(top, #404040 0%, #191919 66%, #000000 100%);
-    background: linear-gradient(to bottom, #404040 0%, #191919 66%, #000000 100%); */
-    /* border-bottom: 2px solid #444444; */
-}
 .active{
     color: #00ff15;
 }
@@ -612,7 +595,7 @@ radio-group {
     display: flex;
     flex-direction: column;
 
-align-self: flex-start;
+    align-self: flex-start;
     align-items: flex-start;
     justify-content: flex-start;
     justify-items: flex-start;
@@ -639,7 +622,7 @@ td > a {
     width: 25px;
     filter: invert(99%) sepia(0%) saturate(3889%) hue-rotate(200deg) brightness(110%) contrast(100%);
 }
-.icon-search:hover{
+.icon-detail:hover{
     filter: invert(73%) sepia(87%) saturate(4040%) hue-rotate(85deg) brightness(110%) contrast(129%);
 }
 .icon-trash:hover{

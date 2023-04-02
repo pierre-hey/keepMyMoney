@@ -99,57 +99,7 @@
                     <th class="th-act" colspan="2">Action</th>
                 </tr>
                 </thead>
-                <tfoot>
-                <tr class="td-foot">
-                    <td colspan="2"></td>
-                    <td>150</td>
-                    <td>100</td>
-                    <td>50</td>
-                    <td colspan="3">
-                        <!--          <div class="links">-->
-                        <div class="links">
-                            <a class="noActive" th:if="${activePage - 1 > 0}"
-                               th:href="@{page(pageNo=${activePage - 1},
-                                pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
-                                label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
-                                category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
-                                type=${param.type != null && param.type[0] != ''} ? ${param.type[0]} : null,
-                                date=${param.date != null && param.date[0] != ''} ? ${param.date[0]} : null,
-                                month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null,
-                                year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null
 
-                               )}">&laquo;</a>
-
-<!--                            <p th:text="${param.pageSize}"></p><p>-&#45;&#45;&#45;&#45;</p> <p th:text="${param.pageSize[0]}"></p>-->
-                           <a th:href="@{page(pageNo=${pageNumber},
-                                pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
-                                label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
-                                category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
-                                type=${param.type != null && param.type[0] != ''} ? ${param.type[0]} : null,
-                                date=${param.date != null && param.date[0] != ''} ? ${param.date[0]} : null,
-                                month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null,
-                                year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null
-                                )}"
-                               th:each="pageNumber : ${pageNumbers}"
-                               th:text="${pageNumber != null} ? ${pageNumber}"
-                               th:class="${null != param.pageNo}?(${pageNumber.toString() == param.pageNo[0]} ? active : noActive) : noActive">
-                            </a>
-                            <a class="noActive"
-                               th:unless="${activePage >= totalPages}"
-                               th:href="@{page(pageNo=${activePage + 1},
-                                pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
-                                label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
-                                category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
-                                type=${param.type != null && param.type[0] != ''} ? ${param.type[0]} : null,
-                                date=${param.date != null && param.date[0] != ''} ? ${param.date[0]} : null,
-                                month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null,
-                                year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null
-                               )}">&raquo;</a>
-
-                        </div>
-                    </td>
-                </tr>
-                </tfoot>
                 <tbody>
                 <tr th:each="transaction : ${transactionList}" th:object="${transaction}">
                     <td th:text="*{getTransactionDate}"></td>
@@ -164,7 +114,7 @@
                     <td th:text="*{category.period.getDisplayValue()}"></td>
                     <td>
                         <a th:href="@{transactions/detail(id=${transaction.id})}">
-                            <img class="icon icon-search"
+                            <img class="icon icon-detail"
                                  src="/icons/search.svg"
                                  alt="loupe">
                         </a>
@@ -181,6 +131,46 @@
                 </tr>
                 </tbody>
             </table>
+            <div class="pagination">
+                <a class="noActive" th:if="${activePage - 1 > 0}"
+                   th:href="@{page(pageNo=${activePage - 1},
+                                pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
+                                label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
+                                category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
+                                type=${param.type != null && param.type[0] != ''} ? ${param.type[0]} : null,
+                                date=${param.date != null && param.date[0] != ''} ? ${param.date[0]} : null,
+                                month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null,
+                                year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null
+
+                               )}">&laquo;</a>
+
+                <!--                            <p th:text="${param.pageSize}"></p><p>-&#45;&#45;&#45;&#45;</p> <p th:text="${param.pageSize[0]}"></p>-->
+                <a th:href="@{page(pageNo=${pageNumber},
+                                pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
+                                label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
+                                category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
+                                type=${param.type != null && param.type[0] != ''} ? ${param.type[0]} : null,
+                                date=${param.date != null && param.date[0] != ''} ? ${param.date[0]} : null,
+                                month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null,
+                                year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null
+                                )}"
+                   th:each="pageNumber : ${pageNumbers}"
+                   th:text="${pageNumber != null} ? ${pageNumber}"
+                   th:class="${null != param.pageNo}?(${pageNumber.toString() == param.pageNo[0]} ? active : noActive) : noActive">
+                </a>
+                <a class="noActive"
+                   th:unless="${activePage >= totalPages}"
+                   th:href="@{page(pageNo=${activePage + 1},
+                                pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
+                                label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
+                                category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
+                                type=${param.type != null && param.type[0] != ''} ? ${param.type[0]} : null,
+                                date=${param.date != null && param.date[0] != ''} ? ${param.date[0]} : null,
+                                month=${param.month != null && param.month[0] != ''} ? ${param.month[0]} : null,
+                                year=${param.year != null && param.year[0] != ''} ? ${param.year[0]} : null
+                               )}">&raquo;</a>
+
+            </div>
         </div>
     </section>
 </div> <!-- /wrapper -->
