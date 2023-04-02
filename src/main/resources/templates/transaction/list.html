@@ -14,7 +14,7 @@
 
 <div class="wrapper">
     <div class="content-menu">
-        <form method="post" th:action="@{page}">
+        <form method="post" th:action="@{transactions}">
             <label>Désignation
                 <input type="text" name="labelFilter"
                 th:value="${param.label != null} ? ${param.label[0]}">
@@ -86,7 +86,6 @@
 
 
     <section class="content">
-        <div class="table-div">
             <table class="money-table">
                 <thead>
                 <tr>
@@ -99,10 +98,9 @@
                     <th class="th-act" colspan="2">Action</th>
                 </tr>
                 </thead>
-
                 <tbody>
                 <tr th:each="transaction : ${transactionList}" th:object="${transaction}">
-                    <td th:text="*{getTransactionDate}"></td>
+                    <td th:text="${#temporals.format(transaction.getTransactionDate(), 'dd-MM-yyyy')}"></td>
                     <td th:text="*{label}"></td>
                     <td class="spent-text"
                         th:text="*{category.type == T(fr.hey.keepmymoney.entities.enumerations.EType).SPENT}? *{amount} ">
@@ -133,7 +131,7 @@
             </table>
             <div class="pagination">
                 <a class="noActive" th:if="${activePage - 1 > 0}"
-                   th:href="@{page(pageNo=${activePage - 1},
+                   th:href="@{transactions(pageNo=${activePage - 1},
                                 pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
                                 label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
                                 category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
@@ -145,7 +143,7 @@
                                )}">&laquo;</a>
 
                 <!--                            <p th:text="${param.pageSize}"></p><p>-&#45;&#45;&#45;&#45;</p> <p th:text="${param.pageSize[0]}"></p>-->
-                <a th:href="@{page(pageNo=${pageNumber},
+                <a th:href="@{transactions(pageNo=${pageNumber},
                                 pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
                                 label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
                                 category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
@@ -160,7 +158,7 @@
                 </a>
                 <a class="noActive"
                    th:unless="${activePage >= totalPages}"
-                   th:href="@{page(pageNo=${activePage + 1},
+                   th:href="@{transactions(pageNo=${activePage + 1},
                                 pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,
                                 label=${param.label != null && param.label[0] != ''} ? ${param.label[0]} : null,
                                 category=${param.category != null && param.category[0] != ''} ? ${param.category[0]} : null,
@@ -171,7 +169,6 @@
                                )}">&raquo;</a>
 
             </div>
-        </div>
     </section>
 </div> <!-- /wrapper -->
 </body>

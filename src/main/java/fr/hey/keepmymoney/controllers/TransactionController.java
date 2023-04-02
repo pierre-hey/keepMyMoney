@@ -50,23 +50,7 @@ public class TransactionController {
         this.authenticationFacade = authenticationFacade;
     }
 
-    @GetMapping
-    public ModelAndView showAllView() {
-
-        List<Transaction> transactionList;
-        // Récupérer l'utilisateur connecté
-        User user = authenticationFacade.getUserAuth();
-
-        if (!ObjectUtils.isEmpty(user)) {
-            transactionList = transactionService.findAllTransactionsByUserId(user.getId());
-        } else {
-            return new ModelAndView("login");
-        }
-
-        return new ModelAndView("transaction/list", "transactionList", transactionList);
-    }
-
-    @GetMapping("/page")
+    @GetMapping()
     public ModelAndView showAllViewWithPagination(@RequestParam(defaultValue = "1") Integer pageNo,
                                                   @RequestParam(defaultValue = "10") Integer pageSize,
                                                   @RequestParam(required = false, name = "label") String labelFilter,
@@ -84,6 +68,16 @@ public class TransactionController {
         User user = authenticationFacade.getUserAuth();
         ModelAndView modelAndView;
         if (!ObjectUtils.isEmpty(user)) {
+            // Vérification des valeurs du paging
+            if (pageSize > 20) {
+                pageSize = 20;
+            }
+            if (pageSize < 5) {
+                pageSize = 5;
+            }
+            if (pageNo < 1) {
+                pageNo = 1;
+            }
 
             // Soustrait 1 à la pagination, dans les paramètres de la requête, on ne veut pas de "pageNo=0" pour la 1ère page
             Pageable paging = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy).ascending());
@@ -134,7 +128,7 @@ public class TransactionController {
         return modelAndView;
     }
 
-    @PostMapping("/page")
+    @PostMapping()
     public String testFormFilter(@ModelAttribute("pageSizeFilter") String pageSizeFilter,
                                  @ModelAttribute("labelFilter") String labelFilter,
                                  @ModelAttribute("categoryFilter") Category categoryFilter,
@@ -181,7 +175,7 @@ public class TransactionController {
         }
 
 
-        return "redirect:/transactions/page";
+        return "redirect:/transactions";
     }
 
     @GetMapping("/detail")

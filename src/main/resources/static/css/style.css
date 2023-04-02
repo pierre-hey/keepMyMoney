@@ -13,7 +13,7 @@ body {
     display: flex; /* crée un contexte flex pour ses enfants */
     flex-direction: row; /* affichage horizontal */
 
-    height: 100vh;
+    height: 90%;
 }
 nav {
     width: 10%;
@@ -34,7 +34,6 @@ nav {
     flex: 01; /* occupe la largeur restante */
     background-color: rgb(59, 59, 59);
 
-    height: 100%;
 }
 
 .content-center {
@@ -534,7 +533,7 @@ thead{
     width: 5%;
 }
 .th-desi{
-    width: 45%;
+    width: 35%;
 }
 .th-dep{
     width:5%;
@@ -544,10 +543,10 @@ thead{
     width: 5%;
 }
 .th-cat{
-    width: 10%;
+    width: 15%;
 }
 .th-per{
-    width:10%
+    width:15%
 }
 .th-act{
     width: 5%;
@@ -562,12 +561,12 @@ table.money-table thead th:first-child {
     bottom: 0;
     text-align: right;
     background: #535151;
-    height: 5%;
+
 
     font-size: 16px;
     font-weight: bolder;
     color: #FFFFFF;
-    padding: 12px;
+    padding: 5px;
     border-top: 2px solid #ff7300;
 }
 
