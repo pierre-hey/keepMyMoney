@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+</head>
+<body>
+
+<h1>Ajouter une nouvelle catégorie</h1>
+
+
+<div th:fragment="transactionForm" th:object="${transaction}">
+  <h1 th:text="${transaction.label} == null ? 'Créer une nouvelle transaction' : 'Modifier la transaction : ' + *{label}"></h1>
+
+  <div>
+    <label> Date
+      <input type="date" th:field="*{transactionDate}">
+    </label>
+    <p th:if="${#fields.hasErrors('transactionDate')}" th:errors="*{transactionDate}"></p>
+  </div>
+
+  <div>
+    <label> Désignation
+      <input type="text" th:field="*{label}">
+    </label>
+    <p th:if="${#fields.hasErrors('label')}" th:errors="*{label}"></p>
+  </div>
+
+  <div>
+    <label> Montant
+      <input type="number" step="0.01" th:field="*{amount}">
+    </label>
+    <p th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></p>
+  </div>
+
+  <div>
+    <label> Catégorie
+      <select name="category">
+        <option th:each="category : ${categoryList}"
+                th:value="${category.id}"
+                th:selected="*{category}"
+                th:text="${category.label + ' - ' +
+                 category.type.getDisplayValue() + ' - ' +
+                  category.period.getDisplayValue()}">
+
+        </option>
+      </select>
+    </label>
+    <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p>
+  </div>
+
+  <input type="submit" value="Enregistrer">
+
+</div>
+</body>
+</html>

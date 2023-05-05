@@ -1,185 +1,665 @@
-/*Reset CSS*/
-html, body {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-}
-body{
-    background: greenyellow;
-}
-*{
-    margin: 0;
-    padding: 0;
-    font-family: Avenir, sans-serif;
-}
+/* Layout */
+html {display: flex; flex-direction: column;} /* IE fix */
+body {
+    display: flex; /* crée un contexte flex pour ses enfants */
+    flex-direction: column; /* affichage vertical */
+    min-height: 100vh; /* toute la hauteur du viewport (compatible IE9+) */
 
-@media (max-width: 600px) {
+}
+.wrapper {
+    /* IE fix */
+    /*display: block; */
+    flex: 1 0 auto; /* occupe la hauteur restante */
+    display: flex; /* crée un contexte flex pour ses enfants */
+    flex-direction: row; /* affichage horizontal */
 
-    .site-header {
-        flex-wrap: wrap;
-        height: 30%;
-    }
-
-    .site-nav {
-        order: 2;
-        background: #333;
-        width: 100%;
-        /* height: 100%; */
-    }
+    height: 90%;
+}
+nav {
+    width: 10%;
 }
 
-.site-header {
-    background: #0d1313;
-    color: white;
-    display: flex;
+.content-menu {
+    width: 10%;
+    display: block;
+    padding: .5em 1em;
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,.3);
+
+    background-color: rgb(23, 23, 23);
+}
+.content {
+    display: block; /* IE fix */
+    flex: 01; /* occupe la largeur restante */
+    background-color: rgb(59, 59, 59);
+
+}
+
+.content-center {
+    display: flex; /* IE fix */
+    flex-direction: column;
+    flex: 01; /* occupe la largeur restante */
+
     align-items: center;
-
-    height: 10%;
+    justify-content: center;
+    background-color: rgb(59, 59, 59);
 }
 
-.logo {
-    text-decoration: none;
+/* Responsive */
+
+@media (max-width: 640px) {
+    body {
+        min-height: 0;
+    }
+    .wrapper {
+        flex-direction: column;
+    }
+    .content {
+        flex-basis: auto;
+    }
+    .content-menu {
+        width: auto;
+        order: 1;
+    }
+    nav{
+        display: none;
+    }
+}
+
+/* Decoration */
+
+body {
+    margin: 0;
+    background: #ffffff;
+
+
+    height:100%;
+    width:100%;
+    padding:0;
+
+    overflow: hidden;
+}
+section {
+    /* padding-right: 5px; */
+    padding: 10px 5px 0 2px;
+    /* padding: 0px; */
+    margin: 0;
+    /* border: 2px solid #fff; */
+    /* border-radius: 10px; */
+    color: #fff;
+    /* background: hotpink; */
+    /* background: black; */
+    /*overflow: scroll;*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Input style */
+/* input, label, select {
+    display:block;
+    margin: 5px 0 5px 0;
+} */
+input, select{
+    width: 100%;
+    margin: 5px 0 10px 0;
+    padding: 12px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid #8f8686;
+}
+input[type=submit] {
+    background-color: #0d82cf;
     color: white;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    padding: 10px;
+}
+input[type=submit]:hover {
+    background-color: #33bb77;
+}
+input[type=submit],
+input[type=date],
+select {
+    cursor: pointer;
+}
+/* Fin input style */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Login form */
+.login-form{
+    width: 30%;
+    border: 3px dashed rgba(137, 191, 228, 0.74);
+    border-radius: 15% 0 15% 0;
+    padding: 15px;
+
+    font-size: 22px;
 }
 
-.site-nav-item {
-    list-style: none;
-    display: flex;
+.login-form h1{
+    text-align: center;
+    font-weight: bolder;
+}
+.login-form-item{
+    margin: 10px;
+    text-align: right;
+    font-size: 16px;
+}
+.login-form-item a{
+    color: #00ff15;
+}
+.login-form-item a:hover{
+    color: #00cf11;
+}
+/* Fin login form */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Reset CSS*/
+* {
     margin: 0;
     padding: 0;
+    /* font-family: Avenir, sans-serif; */
+
+    font-family: "Century Gothic", helvetica, arial, sans-serif;
+
+
+
+    /* IMPORTANT
+    You could add box-sizing:border-box to the container element,
+    to be able to specify a width and height that don't
+    vary when you add padding and/or border to the element.
+     */
+    box-sizing:border-box
 
 }
 
-.site-nav-link {
+
+
+
+/* Menu déroulant */
+nav {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #000000;
+    /*position: sticky;*/
+    /*top: 0;*/
     text-transform: uppercase;
+
+    background: -moz-linear-gradient(top, #404040 0%, #191919 66%, #000000 100%);
+    background: -webkit-linear-gradient(top, #404040 0%, #191919 66%, #000000 100%);
+    background: linear-gradient(to bottom, #404040 0%, #191919 66%, #000000 100%);
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    float: left;
+    width: 25%;
+    text-align: center;
+    position: relative;
+}
+
+nav ul::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+nav a {
+    display: block;
     text-decoration: none;
-    color: #cdd0d0;
-    padding: 20px;
+    color: white;
+    border-bottom: 2px solid transparent;
+    padding: 10px 0;
+}
+
+nav a:hover {
+
+
+    text-shadow: 0 0 5px #06fd44, 0 0 55px #37ff00, -20px -22px 2px rgba(2, 2, 2, 0);
+
+    color: #00ff15;
+
+}
+
+.sous {
+    display: none;
+    box-shadow: 0 1px 2px #757575;
+    background-color: rgb(0, 0, 0);
+    background: -moz-linear-gradient(top, #404040 0%, #191919 66%, #000000 100%);
+    background: -webkit-linear-gradient(top, #404040 0%, #191919 66%, #000000 100%);
+    background: linear-gradient(to bottom, #404040 0%, #191919 66%, #000000 100%);
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+}
+
+nav>ul li:hover .sous {
+    display: block;
+}
+
+.sous li {
+    float: none;
+    width: 100%;
+    text-align: left;
+}
+
+.sous a {
+    padding: 10px;
+    border-bottom: none;
+
+}
+
+.sous a:hover {
+    border-bottom: none;
+    /* background-color: #41833f; */
+    /* font-weight: bold; */
+}
+
+.deroulant>a:after {
+    /* content:" ▼"; */
+    content: '❯';
+    font-size: 12px;
+
+    display: inline-block;
+}
+.connexion>a:after {
+    /* content:" ▼"; */
+    content: '';
+    font-size: 12px;
+
+    display: inline-block;
+}
+.connexion>a::before {
+    content: '❮\2003';
+    /*transform: rotate(180deg);*/
+    font-size: 12px;
+
     display: inline-block;
 }
 
-.site-nav .active a {
-    font-weight: bold;
-    color: #62debe;
-    background: #14604c;
+.deroulant:hover>a:after {
+    animation: rotationFleche 0.2s linear forwards;
 }
 
-
-.actions {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-
-
+.connexion:hover>a::before {
+    animation: rotationFleche2 0.2s linear forwards;
 }
 
-.sign-out-link {
-    color: #62debe;
-    font-size: 0.8rem;
-    margin-left: 10px;
-    margin-right: 10px;
-    text-transform: uppercase;
-}
-
-.nav-item-li :hover  {
-    animation: anim-focus 0.2s linear forwards;
-}
-
-@keyframes anim-focus {
+@keyframes rotationFleche {
     0% {
-        /* box-shadow: 0 3px 3px 1px rgba(0, 0, 0, 0);
-        border-top: 3px solid #e02d2d; */
-        background-color: rgb(22, 59, 22);
-        border-radius: 5px;
+        transform: rotate(0deg);
     }
 
-    25% {
-        /* box-shadow: 0 3px 3px 1px rgba(0, 0, 0, 0.3); */
-        background-color: rgb(39, 145, 39);
-
-        border-radius: 7px;
+    50% {
+        transform: rotate(45deg);
     }
+
+    100% {
+        transform: rotate(90deg);
+    }
+}
+
+@keyframes rotationFleche2 {
+    0% {
+        transform: rotate(360deg);
+    }
+
+    50% {
+        transform: rotate(320deg);
+    }
+
+    100% {
+        transform: rotate(270deg);
+    }
+}
+
+.deroulant:hover>.sous {
+    animation: apparitionSousMenu 2s forwards;
+}
+
+@keyframes apparitionSousMenu {
+    0% {
+        box-shadow: 0 3px 3px 1px rgba(0, 0, 0, 0);
+        border-top: 3px solid #ffbb00;
+    }
+
+    30% {
+        box-shadow: 0 3px 3px 1px rgba(0, 0, 0, 0.3);
+        border-top: 3px solid #48ff00;
+    }
+
     100% {
         max-height: 50em;
-        /* border-top: 3px solid gold; */
-        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.3);
-        background-color: rgb(27, 212, 27);
-        color: black;
-        font-weight: bold;
-        border-radius: 10px;
+        border-top: 3px solid rgb(30, 255, 0);
+        box-shadow: 0 3px 3px 1px rgba(0, 0, 0, 0.3);
     }
 }
 
 
-.flex-container-center {
-    height: 90%;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.header-title {
+    text-align: left;
+    padding-left: 12px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+
+    width: 15%;
+    float: left;
 }
-
-.row-login-form {
-    width: 25%;
-    padding: 20px;
-    border: 3px dashed rgba(137, 191, 228, 0.74);
-    border-radius: 15% 0 15% 0;
+.header-title > a {
+    color: #00ff15;
 }
+.connexion {
+    width: 15%;
+    float: right;
+    text-align: right;
+    padding-right: 15px;
+    margin-right: 5px;
 
-.flex-login-item {
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+}
+header{
+    /*position: sticky;*/
+    /*top: 0;*/
+}
+/* Fin menu déroulant */
 
-    /* padding: 5px; */
 
-    width: 100%;
+
+
+
+
+
+
+
+
+
+
+
+/* Tableau */
+
+table.money-table tbody {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+.money-table {
+    display:block;
+    table-layout: fixed;
     height: 100%;
+    overflow-x: hidden;
+}
 
-    /* line-height: 20px; */
-    color: rgb(0, 0, 0);
-    /* font-weight: bold; */
-    /* font-size: 2em; */
+.content{
+    display: block;
+}
+
+tbody td:last-child, thead th:last-child {
+    border-right: none;
+}
+
+thead tr th {
+    height: 30px;
+    line-height: 40px;
+}
+
+table.money-table {
+    /* border: 1px solid #666666; */
+    background-color: rgb(59, 59, 59);
+    width: 100%;
+    height: 90vh;
+    text-align: left;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+/* Zebre, 1 ligne sur 2 */
+table.money-table tr:nth-child(even) {
+    background-color: rgb(70, 70, 70);
+}
+
+table.money-table td, table.money-table th {
+    /* border: 1px solid #aaaaaa; */
+    padding: 3px 2px 0 3px;
+}
+
+table.money-table tbody td {
+    font-size: 16px;
+}
+
+table.money-table thead {
+    /* background: #535151;
+    background: -moz-linear-gradient(top, #404040 0%, #191919 66%, #535151 100%);
+    background: -webkit-linear-gradient(top, #404040 0%, #191919 66%, #535151 100%);
+    background: linear-gradient(to bottom, #404040 0%, #191919 66%, #535151 100%); */
+    background-color: rgb(40, 40, 40);
+    border-bottom: 2px solid #444444;
+    z-index: 2;
+}
+table.money-table thead th {
+    font-size: 16px;
+    font-weight: bolder;
+    color: #ffffff;
+    text-align: center;
+}
+thead{
+    position: sticky;
+    top: 0;
+}
+.th-date{
+    width: 5%;
+}
+.th-desi{
+    width: 35%;
+}
+.th-dep{
+    width:5%;
+}
+
+.th-res{
+    width: 5%;
+}
+.th-cat{
+    width: 15%;
+}
+.th-per{
+    width:15%
+}
+.th-act{
+    width: 5%;
     text-align: center;
 }
 
-/* Style inputs */
+table.money-table thead th:first-child {
+    border-left: none;
+}
+.pagination{
+    position: sticky;
+    bottom: 0;
+    text-align: right;
+    background: #535151;
 
-input[type=text],
-input[type=password] {
-    width: 100%;
-    margin: 5px 0 5px 0;
-    border-radius: 10px;
-    border: 1px solid #8f8686;
 
-    /* Box sizing makes the input width stay at 250px rather
-    than increase to 260px due to the padding. */
-    padding: 12px;
-    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box; /* Firefox, other Gecko */
-    box-sizing: border-box; /* Opera/IE 8+ */
+    font-size: 16px;
+    font-weight: bolder;
+    color: #FFFFFF;
+    padding: 5px;
+    border-top: 2px solid #ff7300;
 }
 
-/* Style the submit button */
-
-button[type=submit] {
-    width: 100%;
-    padding: 12px;
-    margin: 5px 0 5px 0;
-    border-radius: 10px;
-
-    background-color: #0d82cf;
-    color: white;
-    border: none;
-    cursor: pointer;
+.pagination a{
+    display: inline-block;
+    background: rgb(59, 59, 59);
+    padding: 10px 10px;
+    margin-right: 5px;
+    border-radius: 5px;
+}
+.pagination a:hover{
+    color: #00ff15;
 }
 
-/* Add a background color to the submit button on mouse-over */
-button:hover {
-    background-color: #33bb77;
+.active{
+    color: #00ff15;
 }
+.noActive{
+    color: #FFFFFF;
+}
+/* Fin Tableau */
+
+
+radio-group {
+    display: flex;
+    flex-direction: column;
+
+    align-self: flex-start;
+    align-items: flex-start;
+    justify-content: flex-start;
+    justify-items: flex-start;
+    align-content: flex-start;
+
+    border: 1px solid;
+    border-radius: 25px;
+}
+
+.spent-text{
+    color: #ff0000;
+}
+.income-text{
+    color: #00ff15;
+}
+
+td > a {
+    text-decoration: underline;
+    color: #ffffff;
+}
+.icon{
+    z-index: -1;
+    height: 25px;
+    width: 25px;
+    filter: invert(99%) sepia(0%) saturate(3889%) hue-rotate(200deg) brightness(110%) contrast(100%);
+}
+.icon-detail:hover{
+    filter: invert(73%) sepia(87%) saturate(4040%) hue-rotate(85deg) brightness(110%) contrast(129%);
+}
+.icon-trash:hover{
+    filter: invert(33%) sepia(100%) saturate(6337%) hue-rotate(353deg) brightness(91%) contrast(126%);
+}
+
+/* Message flash */
+
+.msg-flash {
+
+    text-align: center;
+    background-color: #565656;
+    color: #ff7a00;
+
+    /* Hide flash msg */
+    -moz-animation: hide-flash 0s ease-in 5s forwards;
+    /* Firefox */
+    -webkit-animation: hide-flash 0s ease-in 5s forwards;
+    /* Safari and Chrome */
+    -o-animation: hide-flash 0s ease-in 5s forwards;
+    /* Opera */
+    animation: hide-flash 0s ease-in 5s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+@keyframes hide-flash {
+    to {
+        width:0;
+        height:0;
+        overflow:hidden;
+    }
+}
+@-webkit-keyframes hide-flash {
+    to {
+        width:0;
+        height:0;
+        visibility:hidden;
+    }
+}
+
+/* Fin Message flash */

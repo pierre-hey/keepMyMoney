@@ -15,7 +15,7 @@ import lombok.Setter;
 @PasswordMatches(message = "Les mots de passe ne correspondent pas")
 public class UserDto
 {
-    private Long id;
+    private Integer id;
     @NotBlank(message = "Ne peut pas être vide")
     private String login;
     @NotBlank(message = "Ne peut pas être vide")
