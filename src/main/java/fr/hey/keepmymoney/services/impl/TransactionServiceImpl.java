@@ -192,5 +192,10 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findAll(spec, pageable);
     }
 
+    @Override
+    public List<Transaction> findTransactionsWithCategoryTypeAndUser(EType type, Integer userId) {
+        return transactionRepository.findAllByCategory_TypeAndUserId(type,userId);
+    }
+
 
 }

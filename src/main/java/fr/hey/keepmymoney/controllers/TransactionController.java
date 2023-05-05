@@ -120,14 +120,14 @@ public class TransactionController {
     }
 
     @PostMapping()
-    public String testFormFilter(@ModelAttribute("pageSizeFilter") String pageSizeFilter,
-                                 @ModelAttribute("labelFilter") String labelFilter,
-                                 @ModelAttribute("categoryFilter") Category categoryFilter,
-                                 @ModelAttribute("typeFilter") String typeFilter,
-                                 @ModelAttribute("dateFilter") String dateFilter,
-                                 @ModelAttribute("monthFilter") String monthFilter,
-                                 @ModelAttribute("yearFilter") String yearFilter,
-                                 RedirectAttributes redirectAttributes
+    public String createTransactionFilter(@ModelAttribute("pageSizeFilter") String pageSizeFilter,
+                                          @ModelAttribute("labelFilter") String labelFilter,
+                                          @ModelAttribute("categoryFilter") Category categoryFilter,
+                                          @ModelAttribute("typeFilter") String typeFilter,
+                                          @ModelAttribute("dateFilter") String dateFilter,
+                                          @ModelAttribute("monthFilter") String monthFilter,
+                                          @ModelAttribute("yearFilter") String yearFilter,
+                                          RedirectAttributes redirectAttributes
     ) {
 
         System.out.println("######################################################");
@@ -189,7 +189,7 @@ public class TransactionController {
     }
 
     @PostMapping("/detail")
-    public String updateCategory(@RequestParam("id") Integer id,
+    public String updateTransaction(@RequestParam("id") Integer id,
                                  @Valid Transaction transaction, BindingResult result,
                                  Model model, RedirectAttributes redirAttrs) {
 

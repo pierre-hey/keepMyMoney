@@ -1,6 +1,7 @@
 package fr.hey.keepmymoney.repositories;
 
 import fr.hey.keepmymoney.entities.Transaction;
+import fr.hey.keepmymoney.entities.enumerations.EType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -35,4 +36,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 //    List<Transaction> findByDateYearAndUserId(@Param("dateYear")int dateYear, @Param("userId")Integer userId);
 
     List<Transaction> findAllByLabelLikeAndUserId(String label, Integer userId);
+
+    List<Transaction> findAllByCategory_TypeAndUserId(EType category_type, Integer userId);
 }

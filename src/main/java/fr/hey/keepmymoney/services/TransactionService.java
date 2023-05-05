@@ -129,4 +129,14 @@ public interface TransactionService {
      */
     Page<Transaction> findTransactionWithSpec(String label, Category category, EType type, LocalDate transactionDate, Integer dateMonth, Integer dateYear, Integer userId, Pageable pageable);
 
+
+    /**
+     * Recherche des transactions par type de leurs catégories et par id user
+     *
+     * @param type   type de la catégorie
+     * @param userId utilisateur id
+     * @return Liste de transaction
+     */
+    List<Transaction> findTransactionsWithCategoryTypeAndUser(EType type, Integer userId);
+
 }

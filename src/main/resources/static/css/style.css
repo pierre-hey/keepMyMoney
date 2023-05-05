@@ -45,7 +45,14 @@ nav {
     justify-content: center;
     background-color: rgb(59, 59, 59);
 }
-
+.content-center-row {
+    display: flex; /* IE fix */
+    flex-direction: row;
+    flex: 01; /* occupe la largeur restante */
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(59, 59, 59);
+}
 /* Responsive */
 
 @media (max-width: 640px) {
