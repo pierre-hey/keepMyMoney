@@ -27,10 +27,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -64,61 +62,54 @@ public class TransactionController {
 //        http://localhost:8080/transactions/page?pageNo=1&pageSize=10&label=co&year=2021&dateFilter=
 
 
+        // Liste pour la sélection du nombre d'éléments par page à afficher
+        final List<Integer> PAGE_SIZE_SELECTOR = List.of(5, 10, 15, 20);
+        final Integer MAX_PAGE_SIZE = Collections.max(PAGE_SIZE_SELECTOR);
+        final Integer MIN_PAGE_SIZE = Collections.min(PAGE_SIZE_SELECTOR);
+        // Liste pour la sélection du mois
+        final List<String> monthsSelectorList = Utils.monthList();
+
         // Récupérer l'utilisateur connecté
         User user = authenticationFacade.getUserAuth();
         ModelAndView modelAndView;
         if (!ObjectUtils.isEmpty(user)) {
             // Vérification des valeurs du paging
-            if (pageSize > 20) {
-                pageSize = 20;
+            if (pageSize > MAX_PAGE_SIZE) {
+                pageSize = MAX_PAGE_SIZE;
             }
-            if (pageSize < 5) {
-                pageSize = 5;
-            }
-            if (pageNo < 1) {
-                pageNo = 1;
+            if (pageSize < MIN_PAGE_SIZE) {
+                pageSize = MIN_PAGE_SIZE;
             }
 
-            // Soustrait 1 à la pagination, dans les paramètres de la requête, on ne veut pas de "pageNo=0" pour la 1ère page
+            // Soustrait 1 à la pagination, dans les paramètres de la requête, on ne veut pas de "pageNo=0" dans l'URL pour la 1ère page
             Pageable paging = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy).ascending());
 
             Page<Transaction> transactionList;
             modelAndView = new ModelAndView("transaction/list");
 
+            // Recherche des transactions avec critères
             transactionList = transactionService.findTransactionWithSpec(
                     labelFilter, categoryFilter, typeFilter,
                     dateFilter, monthFilter, yearFilter,
                     user.getId(),
                     paging);
 
-
             // Redéfinis le nombre de pages à afficher dans le footer du tableau
             int totalPages = transactionList.getTotalPages();
             modelAndView.addObject("totalPages", totalPages);
+
             if (!ObjectUtils.isEmpty(totalPages) && totalPages > 0) {
                 List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
                         .boxed()
                         .collect(Collectors.toList());
                 modelAndView.addObject("pageNumbers", pageNumbers);
             }
-            // Liste pour la sélection du nombre d'éléments par page à afficher
-            List<Integer> pageSizeSelectorList = List.of(5, 10, 15, 20);
-            // Liste pour la sélection du mois
-            List<String> monthsSelectorList = Utils.monthList();
-
 
             modelAndView.addObject("transactionList", transactionList);
             modelAndView.addObject("activePage", pageNo);
             modelAndView.addObject("categoryList", categoryService.findAllCategories());
-            modelAndView.addObject("pageSizeSelectorList", pageSizeSelectorList);
+            modelAndView.addObject("pageSizeSelectorList", PAGE_SIZE_SELECTOR);
             modelAndView.addObject("monthsSelectorList", monthsSelectorList);
-
-
-            Map<String, List<Object>> testMap = new HashMap<>();
-            List<Object> values = new ArrayList<>();
-            values.add("titi");
-            testMap.put("toto", values);
-            modelAndView.addObject("testMap", testMap);
 
             return modelAndView;
         }
@@ -152,6 +143,7 @@ public class TransactionController {
         // Récupère les attributs du formulaire en post pour les renvoyer au get
         redirectAttributes.addAttribute("pageNo", 1);
         redirectAttributes.addAttribute("pageSize", pageSizeFilter);
+
         if (!ObjectUtils.isEmpty(labelFilter)) {
             redirectAttributes.addAttribute("label", labelFilter);
         }
@@ -167,13 +159,9 @@ public class TransactionController {
         if (!ObjectUtils.isEmpty(categoryFilter)) {
             redirectAttributes.addAttribute("category", categoryFilter);
         }
-
-
-        // Vérifie si typeFilter est null
         if (!ObjectUtils.isEmpty(typeFilter)) {
             redirectAttributes.addAttribute("type", EType.valueOf(typeFilter));
         }
-
 
         return "redirect:/transactions";
     }
