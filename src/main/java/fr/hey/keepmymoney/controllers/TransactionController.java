@@ -1,6 +1,6 @@
 package fr.hey.keepmymoney.controllers;
 
-import fr.hey.keepmymoney.Utils;
+import fr.hey.keepmymoney.KeepMyMoneyUtils;
 import fr.hey.keepmymoney.entities.Category;
 import fr.hey.keepmymoney.entities.Transaction;
 import fr.hey.keepmymoney.entities.User;
@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,18 +62,21 @@ public class TransactionController {
 
 //        http://localhost:8080/transactions/page?pageNo=1&pageSize=10&label=co&year=2021&dateFilter=
 
-
-        // Liste pour la sélection du nombre d'éléments par page à afficher
-        final List<Integer> PAGE_SIZE_SELECTOR = List.of(5, 10, 15, 20);
-        final Integer MAX_PAGE_SIZE = Collections.max(PAGE_SIZE_SELECTOR);
-        final Integer MIN_PAGE_SIZE = Collections.min(PAGE_SIZE_SELECTOR);
-        // Liste pour la sélection du mois
-        final List<String> monthsSelectorList = Utils.monthList();
-
         // Récupérer l'utilisateur connecté
         User user = authenticationFacade.getUserAuth();
         ModelAndView modelAndView;
+
         if (!ObjectUtils.isEmpty(user)) {
+            // Création de la vue
+            modelAndView = new ModelAndView("transaction/list");
+
+            // Liste pour la sélection du nombre d'éléments par page à afficher
+            final List<Integer> PAGE_SIZE_SELECTOR = List.of(5, 10, 15, 20);
+            final Integer MAX_PAGE_SIZE = Collections.max(PAGE_SIZE_SELECTOR);
+            final Integer MIN_PAGE_SIZE = Collections.min(PAGE_SIZE_SELECTOR);
+            // Liste pour la sélection du mois
+            final List<String> MONTHS_SELECTOR_LIST = KeepMyMoneyUtils.monthList();
+
             // Vérification des valeurs du paging
             if (pageSize > MAX_PAGE_SIZE) {
                 pageSize = MAX_PAGE_SIZE;
@@ -81,35 +85,57 @@ public class TransactionController {
                 pageSize = MIN_PAGE_SIZE;
             }
 
-            // Soustrait 1 à la pagination, dans les paramètres de la requête, on ne veut pas de "pageNo=0" dans l'URL pour la 1ère page
+            /*
+                Soustrait 1 à la pagination, le pageRequest commence en index 0.
+                Dans les paramètres de la requête, pas de "pageNo=0" dans l'URL pour la 1ère page
+              */
             Pageable paging = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy).ascending());
 
-            Page<Transaction> transactionList;
-            modelAndView = new ModelAndView("transaction/list");
-
             // Recherche des transactions avec critères
-            transactionList = transactionService.findTransactionWithSpec(
+            Page<Transaction> transactionList = transactionService.findTransactionWithSpec(
                     labelFilter, categoryFilter, typeFilter,
                     dateFilter, monthFilter, yearFilter,
                     user.getId(),
                     paging);
 
-            // Redéfinis le nombre de pages à afficher dans le footer du tableau
+            // Redéfinis le nombre de pages total à afficher dans le footer du tableau
             int totalPages = transactionList.getTotalPages();
             modelAndView.addObject("totalPages", totalPages);
 
+            // Redéfinis la liste des entiers représentant le numéro de page
+            List<Integer> pageNumbers = new ArrayList<>();
             if (!ObjectUtils.isEmpty(totalPages) && totalPages > 0) {
-                List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                pageNumbers = IntStream.rangeClosed(1, totalPages)
                         .boxed()
-                        .collect(Collectors.toList());
-                modelAndView.addObject("pageNumbers", pageNumbers);
+                        .toList();
             }
 
+            // Calcul du total de dépense/revenu et solde pour affichage
+            Double totalIncome = 0d;
+            Double totalExpense = 0d;
+
+            for (Transaction transaction : transactionList) {
+                if (transaction.getCategory().getType().equals(EType.INCOME)) {
+                    totalIncome += transaction.getAmount();
+                } else {
+                    totalExpense += transaction.getAmount();
+                }
+            }
+            Double balance = totalIncome - totalExpense;
+
+            // Liste des transactions
             modelAndView.addObject("transactionList", transactionList);
-            modelAndView.addObject("activePage", pageNo);
+            // Filtre de recherche
             modelAndView.addObject("categoryList", categoryService.findAllCategories());
             modelAndView.addObject("pageSizeSelectorList", PAGE_SIZE_SELECTOR);
-            modelAndView.addObject("monthsSelectorList", monthsSelectorList);
+            modelAndView.addObject("monthsSelectorList", MONTHS_SELECTOR_LIST);
+            // Pagination
+            modelAndView.addObject("pageNumbers", pageNumbers);
+            modelAndView.addObject("activePage", pageNo);
+            // Ligne totaux
+            modelAndView.addObject("totalIncome",totalIncome);
+            modelAndView.addObject("totalExpense",totalExpense);
+            modelAndView.addObject("balance",balance);
 
             return modelAndView;
         }
@@ -140,7 +166,7 @@ public class TransactionController {
         System.out.println("yearFilter : " + yearFilter);
         System.out.println("######################################################");
 
-        // Récupère les attributs du formulaire en post pour les renvoyer au get
+        // Créé les attributs de la requête HTTP GET pour la redirection
         redirectAttributes.addAttribute("pageNo", 1);
         redirectAttributes.addAttribute("pageSize", pageSizeFilter);
 

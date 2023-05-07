@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class Utils {
+public class KeepMyMoneyUtils {
 
     public static List<String> monthList(){
         // Liste pour la sélection du mois

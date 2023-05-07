@@ -5,6 +5,7 @@ import fr.hey.keepmymoney.entities.Transaction;
 import fr.hey.keepmymoney.entities.enumerations.EType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -135,8 +136,17 @@ public interface TransactionService {
      *
      * @param type   type de la catégorie
      * @param userId utilisateur id
-     * @return Liste de transaction
+     * @return Liste de transactions
      */
     List<Transaction> findTransactionsWithCategoryTypeAndUser(EType type, Integer userId);
 
+    /**
+     * Recherche des transactions d'un utilisateur par type de catégorie pour un mois donné
+     *
+     * @param userId        utilisateur id
+     * @param dateMonth     mois
+     * @param category_type type de la catégorie des transactions
+     * @return Liste de transactions
+     */
+    List<Transaction> findTransactionsWithUserAndCategoryAndMonth(Integer userId, Integer dateMonth, EType category_type);
 }

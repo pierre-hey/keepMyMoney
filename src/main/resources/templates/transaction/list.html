@@ -36,7 +36,6 @@
                     <option th:value="null">--Choisir un type--</option>
                     <option th:each="t : ${T(fr.hey.keepmymoney.entities.enumerations.EType).values()}"
                             th:value="${t}"
-
                             th:selected="${param.type != null and param.type[0] == t.toString()} ? ${t}"
                             th:text="${t.getDisplayValue()}">
 <!--                        th:selected="${param.type != null} ? (${param.type[0] == t.toString()} ? ${t})"-->
@@ -129,7 +128,19 @@
                 </tr>
                 </tbody>
             </table>
+
             <div class="pagination">
+                <div class="total">
+                    <h3>Total revenu :
+                        <span class="total-income" th:text="${totalIncome}"></span>
+                    </h3>
+                    <h3>Total dépense :
+                        <span class="total-expense" th:text="${totalExpense}"></span>
+                    </h3>
+                    <h3>Solde :
+                        <span th:class="${balance < 0 ? 'total-expense':'total-income'}" th:text="${balance}"></span>
+                    </h3>
+                </div>
                 <a class="noActive" th:if="${activePage - 1 > 0}"
                    th:href="@{transactions(pageNo=${activePage - 1},
                                 pageSize=${param.pageSize != null} ? ${param.pageSize[0]} : null,

@@ -4,6 +4,8 @@ import fr.hey.keepmymoney.entities.Transaction;
 import fr.hey.keepmymoney.entities.enumerations.EType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -38,4 +40,13 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
     List<Transaction> findAllByLabelLikeAndUserId(String label, Integer userId);
 
     List<Transaction> findAllByCategory_TypeAndUserId(EType category_type, Integer userId);
+
+    @Query( "SELECT t FROM Transaction t " +
+            "WHERE t.user.id=:userId " +
+            "AND MONTH(t.transactionDate)=:dateMonth " +
+            "AND t.category.type=:category_type "
+    )
+    List<Transaction> findTransactionByUserAndMonthAndCategoryType(@Param("userId")Integer userId,
+                                                            @Param("dateMonth")Integer dateMonth,
+                                                            @Param("category_type")EType category_type);
 }
