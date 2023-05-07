@@ -6,9 +6,9 @@ import fr.hey.keepmymoney.entities.Transaction;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GraphHelper {
+public class ChartHelper {
 
-    public static List<CategoryChartDTO> createCategoryChart(List<Transaction> transactions) {
+    public static List<CategoryChartDTO> createTransactionsByCategoryChart(List<Transaction> transactions) {
         return transactions.stream()
                 .collect(Collectors.groupingBy(
                         Transaction::getCategory,

@@ -49,4 +49,16 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
     List<Transaction> findTransactionByUserAndMonthAndCategoryType(@Param("userId")Integer userId,
                                                             @Param("dateMonth")Integer dateMonth,
                                                             @Param("category_type")EType category_type);
+
+
+    @Query( "SELECT t FROM Transaction t " +
+            "WHERE t.user.id=:userId " +
+            "AND MONTH(t.transactionDate)=:dateMonth " +
+            "AND YEAR(t.transactionDate)=:dateYear " +
+            "AND t.category.type=:category_type "
+    )
+    List<Transaction> findTransactionByUserAndMonthAndYearAndCategoryType(@Param("userId")Integer userId,
+                                                                   @Param("dateMonth")Integer dateMonth,
+                                                                   @Param("dateYear")Integer dateYear,
+                                                                   @Param("category_type")EType category_type);
 }

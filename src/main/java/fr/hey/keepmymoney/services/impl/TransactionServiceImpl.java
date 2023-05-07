@@ -177,22 +177,12 @@ public class TransactionServiceImpl implements TransactionService {
             spec = spec.and((root, query, builder)
                     -> builder.equal(root.get("transactionDate"), transactionDate));
         }
-        if (!ObjectUtils.isEmpty(dateYear)) {
-            spec = spec.and((root, query, builder)
-                    -> builder.equal(builder.function("year", Integer.class, root.get("transactionDate")), dateYear));
-        }
-        if (!ObjectUtils.isEmpty(dateMonth)) {
-            spec = spec.and((root, query, builder)
-                    -> builder.equal(builder.function("month", Integer.class, root.get("transactionDate")), dateMonth));
-        }
+        spec = getTransactionSpecification(dateMonth, dateYear, type, spec);
         if (!ObjectUtils.isEmpty(category)) {
             spec = spec.and(((root, query, builder)
                     -> builder.equal(root.get("category"), category)));
         }
-        if (!ObjectUtils.isEmpty(type)) {
-            spec = spec.and(((root, query, builder)
-                    -> builder.equal(root.get("category").get("type"), type)));
-        }
+
 
         return transactionRepository.findAll(spec, pageable);
     }
@@ -206,4 +196,36 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> findTransactionsWithUserAndCategoryAndMonth(Integer userId, Integer dateMonth, EType category_type) {
         return transactionRepository.findTransactionByUserAndMonthAndCategoryType(userId, dateMonth, category_type);
     }
+
+    @Override
+    public List<Transaction> findTransactionsWithUserAndMonthAndYearAndCategory(Integer userId, Integer dateMonth, Integer dateYear, EType category_type) {
+        return transactionRepository.findTransactionByUserAndMonthAndYearAndCategoryType(userId, dateMonth, dateYear, category_type);
+    }
+    @Override
+    public List<Transaction> findTransactionWithCriteria(Integer userId, Integer dateMonth, Integer dateYear, EType type){
+
+        Specification<Transaction> spec = Specification.where((root, query, builder) -> builder.equal(root.get("user"), userId));
+
+        spec = getTransactionSpecification(dateMonth, dateYear, type, spec);
+
+        return transactionRepository.findAll(spec);
+    }
+
+    private Specification<Transaction> getTransactionSpecification(Integer dateMonth, Integer dateYear, EType type, Specification<Transaction> spec) {
+        if (!ObjectUtils.isEmpty(dateYear)) {
+            spec = spec.and((root, query, builder)
+                    -> builder.equal(builder.function("year", Integer.class, root.get("transactionDate")), dateYear));
+        }
+        if (!ObjectUtils.isEmpty(dateMonth)) {
+            spec = spec.and((root, query, builder)
+                    -> builder.equal(builder.function("month", Integer.class, root.get("transactionDate")), dateMonth));
+        }
+
+        if (!ObjectUtils.isEmpty(type)) {
+            spec = spec.and(((root, query, builder)
+                    -> builder.equal(root.get("category").get("type"), type)));
+        }
+        return spec;
+    }
+
 }

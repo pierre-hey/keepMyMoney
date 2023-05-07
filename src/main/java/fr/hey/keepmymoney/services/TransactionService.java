@@ -148,4 +148,27 @@ public interface TransactionService {
      * @return Liste de transactions
      */
     List<Transaction> findTransactionsWithUserAndCategoryAndMonth(Integer userId, Integer dateMonth, EType category_type);
+
+
+    /**
+     * Recherche des transactions d'un utilisateur par type de catégorie pour un mois et une année donnés
+     *
+     * @param userId        utilisateur id
+     * @param dateMonth     mois
+     * @param dateYear      année
+     * @param category_type type de la catégorie des transactions
+     * @return Liste de transactions
+     */
+    List<Transaction> findTransactionsWithUserAndMonthAndYearAndCategory(Integer userId, Integer dateMonth, Integer dateYear,
+                                                                         EType category_type);
+
+
+    /**
+     * @param userId    utilisateur id
+     * @param dateMonth mois
+     * @param dateYear  année
+     * @param type      type de la catégorie des transactions
+     * @return Liste de transactions
+     */
+    List<Transaction> findTransactionWithCriteria(Integer userId, Integer dateMonth, Integer dateYear, EType type);
 }
