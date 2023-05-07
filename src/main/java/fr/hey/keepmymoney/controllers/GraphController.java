@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/graphs")
@@ -58,9 +57,9 @@ public class GraphController {
                 incomeTransactions = transactionService
                         .findTransactionsWithCategoryTypeAndUser(EType.INCOME, user.getId());
             } else {
-              expenseTransactions = transactionService
-                      .findTransactionsWithUserAndCategoryAndMonth(user.getId(), monthFilter, EType.SPENT);
-               incomeTransactions = transactionService
+                expenseTransactions = transactionService
+                        .findTransactionsWithUserAndCategoryAndMonth(user.getId(), monthFilter, EType.SPENT);
+                incomeTransactions = transactionService
                         .findTransactionsWithUserAndCategoryAndMonth(user.getId(), monthFilter, EType.INCOME);
             }
 
