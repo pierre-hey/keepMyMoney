@@ -49,7 +49,7 @@ nav {
     display: flex; /* IE fix */
     flex-direction: row;
     flex: 01; /* occupe la largeur restante */
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     background-color: rgb(59, 59, 59);
 }
@@ -68,7 +68,12 @@ nav {
 .div3 { grid-area: 3 / 1 / 5 / 3; }
 .div4 { grid-area: 3 / 3 / 5 / 5; }
 
-
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 70%;
+    width: 70%;
+}
 
 
 
@@ -121,7 +126,7 @@ body {
 }
 section {
     /* padding-right: 5px; */
-    padding: 10px 5px 0 2px;
+
     /* padding: 0px; */
     margin: 0;
     /* border: 2px solid #fff; */
@@ -515,6 +520,8 @@ table.money-table tbody {
 
 .content{
     display: block;
+
+    padding: 10px 5px 0 2px;
 }
 
 tbody td:last-child, thead th:last-child {
@@ -569,23 +576,22 @@ thead{
     top: 0;
 }
 .th-date{
-    width: 15%;
+    width: 10%;
 }
 .th-desi{
-    width: 25%;
+    width: 35%;
 }
 .th-dep{
-    width:5%;
+    width:10%;
 }
-
 .th-res{
-    width: 5%;
+    width: 10%;
 }
 .th-cat{
-    width: 15%;
+    width: 10%;
 }
 .th-per{
-    width:15%
+    width:20%
 }
 .th-act{
     width: 5%;

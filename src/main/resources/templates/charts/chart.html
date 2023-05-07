@@ -14,6 +14,7 @@
 <body>
 <header th:replace="~{fragments/header :: header}"></header>
 
+
 <div class="wrapper">
     <div class="content-menu">
         <form method="post" th:action="@{graphs}">
@@ -34,36 +35,35 @@
         </form>
     </div>
     <section class="content-center-row">
-        <div>
-            <h2>Répartions des dépenses par catégorie</h2>
-            <canvas id="chartExpense" width="400" height="400"></canvas>
-            <script th:inline="javascript" type="application/javascript">
-                createChart(/*[[${chartDataExpenseTransactions}]]*/[], "chartExpense");
-            </script>
-        </div>
-
-        <div>
-            <h2>Répartions des revenus par catégorie</h2>
-            <canvas id="chartIncome" width="400" height="400"></canvas>
-            <script th:inline="javascript" type="application/javascript">
-                createChart(/*[[${chartDataIncomeTransactions}]]*/[], "chartIncome");
-            </script>
-        </div>
-
-        <div>
-            <h2>Répartions des revenus par catégorie</h2>
-            <canvas id="chartIncomeee" width="400" height="400"></canvas>
-            <script th:inline="javascript" type="application/javascript">
-                createChart(/*[[${chartDataIncomeTransactions}]]*/[], "chartIncomeee");
-            </script>
-        </div>
-
-        <div>
-            <h2>Répartions des revenus par catégorie</h2>
-            <canvas id="chartIncomee" width="400" height="400"></canvas>
-            <script th:inline="javascript" type="application/javascript">
-                createChart(/*[[${chartDataIncomeTransactions}]]*/[], "chartIncomee");
-            </script>
+        <div class="parent">
+            <div class="div1 chart-container">
+                <h2>Répartions des dépenses par catégorie</h2>
+                <canvas id="chartExpense" width="20" height="20"></canvas>
+                <script th:inline="javascript" type="application/javascript">
+                    createChart(/*[[${chartDataExpenseTransactions}]]*/[], "chartExpense");
+                </script>
+            </div>
+            <div class="div2 chart-container">
+                <h2>Répartions des revenus par catégorie</h2>
+                <canvas id="chartIncome" width="20" height="20"></canvas>
+                <script th:inline="javascript" type="application/javascript">
+                    createChart(/*[[${chartDataIncomeTransactions}]]*/[], "chartIncome");
+                </script>
+            </div>
+            <div class="div3 chart-container">
+                <h2>Répartions des revenus par catégorie</h2>
+                <canvas id="chartIncomeee" width="20" height="20"></canvas>
+                <script th:inline="javascript" type="application/javascript">
+                    createChart(/*[[${chartDataIncomeTransactions}]]*/[], "chartIncomeee");
+                </script>
+            </div>
+            <div class="div4 chart-container">
+                <h2>Répartions des revenus par catégorie</h2>
+                <canvas id="chartIncomee" width="20" height="20"></canvas>
+                <script th:inline="javascript" type="application/javascript">
+                    createChart(/*[[${chartDataIncomeTransactions}]]*/[], "chartIncomee");
+                </script>
+            </div>
         </div>
     </section>
 </div> <!-- /wrapper -->
