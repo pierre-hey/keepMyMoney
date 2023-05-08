@@ -32,7 +32,7 @@ public class ChartHelper {
     }
 
     /**
-     * Créé une liste de données (transaction par catégorie et par mois) pour le graphique "Line"
+     * Créé une liDste de données (transaction par catégorie et par mois) pour le graphique "Line"
      *
      * @param transactions liste de transactions à mapper
      * @return liste des valeurs du graphique

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -61,10 +62,19 @@ public class ChartController {
             yearFilter = ObjectUtils.isEmpty(yearFilter) || yearFilter < 2000 || yearFilter > 2100 ? TODAY_YEAR : yearFilter;
 
             // Récupération des transactions
-            List<Transaction> expenseTransactions = transactionService
-                    .findTransactionWithCriteria(user.getId(), monthFilter, yearFilter, EType.SPENT);
-            List<Transaction> incomeTransactions = transactionService
-                    .findTransactionWithCriteria(user.getId(), monthFilter, yearFilter, EType.INCOME);
+            List<Transaction> transactionList = transactionService
+                    .findTransactionWithCriteria(user.getId(), monthFilter, yearFilter);
+
+            List<Transaction> expenseTransactions = new ArrayList<>();
+            List<Transaction> incomeTransactions = new ArrayList<>();
+
+            transactionList.forEach(transaction -> {
+                if (transaction.getCategory().getType().equals(EType.SPENT)) {
+                    expenseTransactions.add(transaction);
+                }else {
+                    incomeTransactions.add(transaction);
+                }
+            });
 
             // Création des données du graphique
             List<CategoryPieChartDTO> chartDataExpenseTransactions = ChartHelper.createTransactionsByCategoryChart(expenseTransactions);

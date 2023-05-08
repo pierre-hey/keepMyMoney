@@ -201,13 +201,25 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findTransactionByUserAndMonthAndYearAndCategoryType(userId, dateMonth, dateYear, category_type);
     }
     @Override
-    public List<Transaction> findTransactionWithCriteria(Integer userId, Integer dateMonth, Integer dateYear, EType type){
+    public List<Transaction> findTransactionWithCriteria(Integer userId, Integer dateMonth, Integer dateYear){
 
         Specification<Transaction> spec = Specification.where((root, query, builder) -> builder.equal(root.get("user"), userId));
 
-        spec = getTransactionSpecification(dateMonth, dateYear, type, spec);
+        spec = getTransactionSpecificationWithMonthAndYear(dateMonth, dateYear, spec);
 
         return transactionRepository.findAll(spec);
+    }
+
+    private Specification<Transaction> getTransactionSpecificationWithMonthAndYear(Integer dateMonth, Integer dateYear, Specification<Transaction> spec) {
+        if (!ObjectUtils.isEmpty(dateYear)) {
+            spec = spec.and((root, query, builder)
+                    -> builder.equal(builder.function("year", Integer.class, root.get("transactionDate")), dateYear));
+        }
+        if (!ObjectUtils.isEmpty(dateMonth)) {
+            spec = spec.and((root, query, builder)
+                    -> builder.equal(builder.function("month", Integer.class, root.get("transactionDate")), dateMonth));
+        }
+        return spec;
     }
 
     private Specification<Transaction> getTransactionSpecification(Integer dateMonth, Integer dateYear, EType type, Specification<Transaction> spec) {

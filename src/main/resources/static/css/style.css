@@ -107,14 +107,14 @@ nav {
 
 .graph-item-line-1{
     flex: 0 0 auto;
-    height: 400px;
+    height: 300px;
     width: 100%;
     position:relative;
 }
 
 .graph-item-line-2{
     flex: 0 0 auto;
-    height: 400px;
+    height: 300px;
     width: 100%;
     position:relative;
 }

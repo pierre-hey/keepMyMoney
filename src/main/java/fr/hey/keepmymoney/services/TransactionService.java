@@ -167,8 +167,7 @@ public interface TransactionService {
      * @param userId    utilisateur id
      * @param dateMonth mois
      * @param dateYear  année
-     * @param type      type de la catégorie des transactions
      * @return Liste de transactions
      */
-    List<Transaction> findTransactionWithCriteria(Integer userId, Integer dateMonth, Integer dateYear, EType type);
+    List<Transaction> findTransactionWithCriteria(Integer userId, Integer dateMonth, Integer dateYear);
 }
