@@ -53,55 +53,79 @@ nav {
     justify-content: center;
     background-color: rgb(59, 59, 59);
 }
+.content-center-column {
+    display: flex; /* IE fix */
+    flex-direction: column;
+    flex: 01; /* occupe la largeur restante */
+    align-items: flex-start;
+    justify-content: center;
+    background-color: rgb(59, 59, 59);
+}
+/* Graphs */
 
-/* Grid Template graphs */
-
-.graph-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 10px 10px;
-    grid-template-areas:
-    "g1 g2"
-    "g1 g2";
-
+.graph-container-pie {
+    display: flex;
     justify-content: space-around;
-    align-content: center;
-    justify-items: center;
-    align-items: stretch;
-    height: 100%;
-    width: 100%;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap:wrap;
+    width:100%;
+    height:100%;
 }
-.g1 { grid-area: g1; }
-.g2 { grid-area: g2; }
-
-.graph-item{
-    height:600px;
-    width: 100%;
+.main-container > div {
+    padding: 0 2px;
 }
 
-.chart-balance{
+.graph-item-pie-1{
+    height: 600px;
+    flex: 0 0 auto;
+
+    position:relative;
+    width: 40%;
+}
+
+.graph-item-pie-2{
+    height: 600px;
+    flex: 0 0 auto;
+
+    position:relative;
+    width: 40%;
+}
+
+.graph-container-line {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap:wrap;
+    width:100%;
+    height:100%;
+
+}
+.graph-container-line > div {
+    padding: 0 2px;
+}
+
+.graph-item-line-1{
+    flex: 0 0 auto;
+    height: 400px;
+    width: 100%;
+    position:relative;
+}
+
+.graph-item-line-2{
+    flex: 0 0 auto;
+    height: 400px;
+    width: 100%;
+    position:relative;
+}
+
+.chart-total{
     text-align: center;
 }
 
 
+/* graphs */
 
-
-
-
-
-/* Fin grid template graphs */
-
-
-
-
-/*
-.chart-container-line{
-    position: relative;
-    margin: auto;
-    height: 200px;
-    width: 700px;
-}*/
 
 
 

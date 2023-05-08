@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <script th:src="@{/js/Chart.min.js}"></script>
-    <script th:src="@{/js/transactions-chart-pie.js}"></script>
     <script th:src="@{/js/transactions-chart-line.js}"></script>
+    <script th:src="@{/js/transactions-chart-bar.js}"></script>
     <title>Index</title>
 
 </head>
@@ -20,18 +20,13 @@
 
 <div class="wrapper">
     <div class="content-menu">
-        <form method="post" th:action="@{graphs}">
+        <form method="post" th:action="@{index}">
 
-            <label>Mois
-                <select name="monthFilter">
-                    <option th:value="null">--Choisir un mois--</option>
-                    <option th:each="monthSelector, statIndex : ${monthsSelectorList}"
-                            th:value="${statIndex.index + 1 }"
-                            th:selected="${param.month != null} ? (${param.month[0] == (statIndex.index + 1).toString()} ? ${monthSelector})"
-                            th:text="${monthSelector}">
-                        <!--                        th:selected="${param.pageSize != null} ? (${param.pageSize[0] == sizeSelector.toString()} ? ${sizeSelector})"-->
-                    </option>
-                </select>
+            <label>Année
+                <input type="number" name="yearFilter"
+                       min="2020" max="2099"
+                       step="1"
+                       th:value="${param.year != null} ? ${param.year[0]} : ${defaultYear}"/>
             </label>
 
             <input type="submit">
@@ -39,37 +34,30 @@
     </div>
     <section class="content-center-row">
 
-        <div class="graph-container">
-            <div class="g1 graph-item">
-                <canvas id="chartExpense"></canvas>
+        <div class="graph-container-line">
+            <div class="graph-item-line-1">
+                <canvas id="chartLine"></canvas>
                 <script th:inline="javascript" type="application/javascript">
-                    createChart(/*[[${chartDataExpenseTransactions}]]*/[],
-                        "chartExpense",
+                    createChartLine(
+                        /*[[${chartLineData}]]*/[],
+                        /*[[${monthsSelectorList}]]*/[],
+                        "chartLine",
                         "Répartitions des dépenses par catégorie");
                 </script>
-
             </div>
-            <div class="g2 graph-item">
-                <canvas id="chartIncome"></canvas>
+
+            <div class="graph-item-line-2">
+                <canvas id="chartLinee"></canvas>
                 <script th:inline="javascript" type="application/javascript">
-                    createChart(/*[[${chartDataIncomeTransactions}]]*/[],
-                        "chartIncome",
-                        "Répartitions des revenus par catégorie");
+                    createChartBar(
+                        /*[[${chartBarData}]]*/[],
+                        /*[[${monthsSelectorList}]]*/[],
+                        "chartLinee",
+                        "Répartitions des dépenses par catégorie");
                 </script>
             </div>
-        </div>
-        <!--<div class="g3">
-            <div class="g3-title">
-                <h2>Répartions des revenus par catégorie</h2></div>
-            <div class="g3-graph">
-                <div class="chart-container-line">
-                    <canvas id="chartIncomeee" width="400" height="150"></canvas>
-                    <script th:inline="javascript" type="application/javascript">
-                        createChartLine(/*[[${chartDataIncomeTransactions}]]*/[], "chartIncomeee");
-                    </script>
-                </div>
-            </div>-->
 
+        </div>
 
     </section>
 </div> <!-- /wrapper -->

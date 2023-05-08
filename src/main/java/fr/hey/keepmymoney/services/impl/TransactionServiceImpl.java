@@ -138,8 +138,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> findAllTransactionsByYearAndUserId(int dateYear, Integer userId) {
-//        return transactionRepository.findByDateYearAndUserId(dateYear, userId);
-        return null;
+       return transactionRepository.findByDateYearAndUserId(dateYear, userId);
     }
 
     @Override

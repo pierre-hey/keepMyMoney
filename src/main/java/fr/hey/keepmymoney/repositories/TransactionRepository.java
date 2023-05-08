@@ -30,12 +30,12 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
   List<Transaction> findAllByTransactionDateMonthAndDateYearAndUserId(@Param("dateMonth") short dateMonth, @Param("dateYear")int dateYear, Integer userId);*/
 
 
-    //	@Query("SELECT DISTINCT YEAR(date) FROM Mouvement m")
-//    @Query("SELECT t FROM Transaction t " +
-//            "WHERE YEAR(date)=:dateYear " +
-//            "AND t.user.id=:userId "
-//            )
-//    List<Transaction> findByDateYearAndUserId(@Param("dateYear")int dateYear, @Param("userId")Integer userId);
+
+    @Query("SELECT t FROM Transaction t " +
+            "WHERE YEAR(t.transactionDate)=:dateYear " +
+            "AND t.user.id=:userId "
+            )
+    List<Transaction> findByDateYearAndUserId(@Param("dateYear")int dateYear, @Param("userId")Integer userId);
 
     List<Transaction> findAllByLabelLikeAndUserId(String label, Integer userId);
 

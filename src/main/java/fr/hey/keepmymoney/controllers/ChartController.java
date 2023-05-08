@@ -2,7 +2,7 @@ package fr.hey.keepmymoney.controllers;
 
 import fr.hey.keepmymoney.KeepMyMoneyUtils;
 import fr.hey.keepmymoney.controllers.helpers.ChartHelper;
-import fr.hey.keepmymoney.dto.CategoryChartDTO;
+import fr.hey.keepmymoney.dto.CategoryPieChartDTO;
 import fr.hey.keepmymoney.entities.Transaction;
 import fr.hey.keepmymoney.entities.User;
 import fr.hey.keepmymoney.entities.enumerations.EType;
@@ -24,14 +24,14 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/graphs")
-public class GraphController {
+public class ChartController {
 
     private final TransactionService transactionService;
 
     private final IAuthenticationFacade authenticationFacade;
 
     @Autowired
-    public GraphController(TransactionService transactionService, IAuthenticationFacade authenticationFacade) {
+    public ChartController(TransactionService transactionService, IAuthenticationFacade authenticationFacade) {
         this.transactionService = transactionService;
 
         this.authenticationFacade = authenticationFacade;
@@ -68,8 +68,8 @@ public class GraphController {
                     .findTransactionWithCriteria(user.getId(), monthFilter, yearFilter, EType.INCOME);
 
             // Création des données du graphique
-            List<CategoryChartDTO> chartDataExpenseTransactions = ChartHelper.createTransactionsByCategoryChart(expenseTransactions);
-            List<CategoryChartDTO> chartDataIncomeTransactions = ChartHelper.createTransactionsByCategoryChart(incomeTransactions);
+            List<CategoryPieChartDTO> chartDataExpenseTransactions = ChartHelper.createTransactionsByCategoryChart(expenseTransactions);
+            List<CategoryPieChartDTO> chartDataIncomeTransactions = ChartHelper.createTransactionsByCategoryChart(incomeTransactions);
 
 
             Double totalExpense = generateTotal(expenseTransactions);
@@ -102,9 +102,9 @@ public class GraphController {
     }
 
     @PostMapping()
-    public String createMonthFilterForGraph(@ModelAttribute("monthFilter") String monthFilter,
-                                            @ModelAttribute("yearFilter") String yearFilter,
-                                            RedirectAttributes redirectAttributes) {
+    public String createMonthYearFilterForGraph(@ModelAttribute("monthFilter") String monthFilter,
+                                                @ModelAttribute("yearFilter") String yearFilter,
+                                                RedirectAttributes redirectAttributes) {
 
         if (!ObjectUtils.isEmpty(monthFilter)) {
             redirectAttributes.addAttribute("month", monthFilter);
