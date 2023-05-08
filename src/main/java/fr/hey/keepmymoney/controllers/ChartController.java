@@ -60,7 +60,6 @@ public class ChartController {
             }
             yearFilter = ObjectUtils.isEmpty(yearFilter) || yearFilter < 2000 || yearFilter > 2100 ? TODAY_YEAR : yearFilter;
 
-
             // Récupération des transactions
             List<Transaction> expenseTransactions = transactionService
                     .findTransactionWithCriteria(user.getId(), monthFilter, yearFilter, EType.SPENT);
@@ -71,10 +70,9 @@ public class ChartController {
             List<CategoryPieChartDTO> chartDataExpenseTransactions = ChartHelper.createTransactionsByCategoryChart(expenseTransactions);
             List<CategoryPieChartDTO> chartDataIncomeTransactions = ChartHelper.createTransactionsByCategoryChart(incomeTransactions);
 
-
+            // Génération des totaux par type de transactions pour affichage
             Double totalExpense = generateTotal(expenseTransactions);
             Double totalIncome = generateTotal(incomeTransactions);
-
 
             // Mapping des variables pour la vue
             modelAndView.addObject("defaultYear", TODAY_YEAR);

@@ -5,50 +5,10 @@ function createChartBar(transactionLineChartDataList, months, canvasId, title) {
         datasets: []
     };
 
-    const { groupedTransactions, balanceData } = groupTransactionsByTypeAndMonth(transactionLineChartDataList);
-
-    Object.keys(groupedTransactions).forEach((transactionType) => {
-        const transactionTotalAmounts = [];
-
-        months.forEach((month) => {
-            const monthIndex = months.indexOf(month) + 1;
-            const transactionTotalAmount = groupedTransactions[transactionType][monthIndex] || 0;
-
-            transactionTotalAmounts.push(transactionTotalAmount);
-        });
-
-        let randomColor;
-        let label;
-        if (transactionType === 'INCOME') {
-            randomColor = getRandomIncomeColor();
-            label = 'Revenus'
-        } else {
-            randomColor = getRandomExpenseColor();
-            label = 'Dépenses'
-        }
-
-        const dataset = {
-            label: label,
-            data: transactionTotalAmounts,
-            backgroundColor: randomColor,
-            borderColor: randomColor,
-            fill: false,
-        };
-
-        chartData.datasets.push(dataset);
-    });
-
-
-    // Ajouter le solde
-    const datasetBalance = {
-        label: 'Solde',
-        data: balanceData,
-        type: 'bar',
-        backgroundColor:"#ffffff",
-    };
-
-
-    chartData.datasets.push(datasetBalance)
+    // Récupération des transactions par type et du solde pour chaque mois
+    const {groupedTransactions, balanceMonth} = groupTransactionsByTypeAndMonth(transactionLineChartDataList);
+    createTransactionDataSet(groupedTransactions, months, chartData);
+    createBalanceDataSet(balanceMonth, months, chartData);
 
     const ctx = document.getElementById(canvasId).getContext('2d');
     Chart.defaults.global.defaultFontColor = '#FFFFFF';
@@ -88,39 +48,125 @@ function createChartBar(transactionLineChartDataList, months, canvasId, title) {
     });
 }
 
+/**
+ * Regroupe les transactions par type et par mois et génère le solde mensuel
+ * @param transactionLineChartDataList donnée brut
+ * @returns {{balanceData: *[], groupedTransactions: {}}} solde mensuel et transactions regroupées
+ */
 function groupTransactionsByTypeAndMonth(transactionLineChartDataList) {
+// Groupement des transactions par type et par mois
     const groupedTransactions = {};
     const balanceMonth = {};
 
     transactionLineChartDataList.forEach((transaction) => {
-        const transactionMonth = transaction.transactionMonth;
-        const transactionType = transaction.type;
-        const transactionAmount = transaction.transactionTotalAmountOfMonth;
+        const {transactionMonth, type, transactionTotalAmountOfMonth} = transaction;
+        const transactionAmount = Number(transactionTotalAmountOfMonth);
 
-        if (!groupedTransactions[transactionType]) {
-            groupedTransactions[transactionType] = {};
+        // Création des clés pour le groupement par type
+        if (!groupedTransactions[type]) {
+            groupedTransactions[type] = {};
         }
-        if (!groupedTransactions[transactionType][transactionMonth]) {
-            groupedTransactions[transactionType][transactionMonth] = 0;
+        if (!groupedTransactions[type][transactionMonth]) {
+            groupedTransactions[type][transactionMonth] = 0;
         }
-        groupedTransactions[transactionType][transactionMonth] += transactionAmount;
+
+        // Calcul du montant total pour chaque type et chaque mois
+        groupedTransactions[type][transactionMonth] += transactionAmount;
+
+        // Calcul du solde pour chaque mois
         if (!balanceMonth[transactionMonth]) {
             balanceMonth[transactionMonth] = 0;
         }
-        if (transactionType === 'INCOME') {
-            balanceMonth[transactionMonth] += transactionAmount;
-        } else {
-            balanceMonth[transactionMonth] -= transactionAmount;
-        }
-
-
+        balanceMonth[transactionMonth] += type === 'INCOME' ? transactionAmount : -transactionAmount;
     });
+
     console.log(balanceMonth);
     console.log(groupedTransactions);
 
-    const balanceData = Object.keys(balanceMonth).map((month) => balanceMonth[month]);
-    return { groupedTransactions, balanceData };
+   // const balanceData = Object.keys(balanceMonth).map((month) => balanceMonth[month]);
+    return {groupedTransactions, balanceMonth};
 }
+
+
+/**
+ * Créer le dataset des transactions mensuel par type
+ * @param groupedTransactions transactions regroupées
+ * @param months liste de mois
+ * @param chartData données du graphique
+ */
+function createTransactionDataSet(groupedTransactions, months, chartData) {
+
+    Object.keys(groupedTransactions).forEach((transactionType) => {
+        const transactionTotalAmounts = [];
+        let backgroundColor;
+        let borderColor;
+        let label;
+
+        months.forEach((month) => {
+            const monthIndex = months.indexOf(month) + 1;
+            let transactionTotalAmount = groupedTransactions[transactionType][monthIndex] || 0;
+
+/*            if(transactionType === 'SPENT'){
+                transactionTotalAmount = transactionTotalAmount * - 1;
+            }*/
+
+            transactionTotalAmounts.push(transactionTotalAmount);
+        });
+
+        if (transactionType === 'INCOME') {
+            backgroundColor = getRandomIncomeColor();
+            borderColor = backgroundColor;
+            label = 'Revenus'
+        } else {
+            backgroundColor = getRandomExpenseColor();
+            borderColor = backgroundColor;
+            label = 'Dépenses'
+        }
+
+        const dataset = {
+            label: label,
+            data: transactionTotalAmounts,
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
+            fill: false,
+        };
+
+        chartData.datasets.push(dataset);
+    });
+}
+
+/**
+ * Créer le dataset du solde mensuel
+ * @param balanceData donnée du solde
+ * @param months mois
+ * @param chartData données du graphique
+ */
+function createBalanceDataSet(balanceData, months, chartData) {
+    const balanceMonthsTotal = [];
+
+    Object.keys(chartData).forEach(() => {
+        months.forEach((month) => {
+            const monthIndex = months.indexOf(month) + 1;
+            const balanceOfMonth = balanceData[monthIndex] || 0;
+
+            console.log(balanceOfMonth);
+            balanceMonthsTotal.push(balanceOfMonth);
+        });
+    });
+
+
+    // Ajouter le solde
+    const datasetBalance = {
+        label: 'Solde',
+        data: balanceMonthsTotal,
+        type: 'bar',
+        backgroundColor: balanceMonthsTotal.map((balance) => balance >= 0 ? '#00ff15' : '#ff0015')
+
+    };
+
+    chartData.datasets.push(datasetBalance);
+}
+
 
 function getRandomColor() {
     const letters = '0123456789ABCDEF';

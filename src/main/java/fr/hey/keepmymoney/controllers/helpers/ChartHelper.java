@@ -13,6 +13,12 @@ import java.util.stream.Collectors;
 
 public class ChartHelper {
 
+    /**
+     * Créé une liste de données (transactions par catégorie) pour le graphique "Pie"
+     *
+     * @param transactions liste de transactions à mapper
+     * @return liste des valeurs du graphique
+     */
     public static List<CategoryPieChartDTO> createTransactionsByCategoryChart(List<Transaction> transactions) {
         return transactions.stream()
                 .collect(Collectors.groupingBy(
@@ -25,16 +31,16 @@ public class ChartHelper {
                 .collect(Collectors.toList());
     }
 
-    /*
-    Map<String, Map<String, List<Person>>> peopleByStateAndCity      =
-        personStream.collect(Collectors.groupingBy(Person::getState,
-                                            Collectors.groupingBy(Person::getCity)));
+    /**
+     * Créé une liste de données (transaction par catégorie et par mois) pour le graphique "Line"
+     *
+     * @param transactions liste de transactions à mapper
+     * @return liste des valeurs du graphique
      */
-
     public static List<TransactionLineChartDTO> createTransactionChartLine(List<Transaction> transactions) {
         Map<String, Map<Integer, Double>> transactionsByCategoryAndMonth = new HashMap<>();
 
-        // Grouper les transactions par catégorie et mois
+        // Grouper les transactions par catégorie et par mois
         groupTransactionByCategoryAndMonth(transactions, transactionsByCategoryAndMonth);
 
         // Créer les transactions à partir de la map de transaction par catégorie et mois
@@ -53,6 +59,12 @@ public class ChartHelper {
         return transactionLineChartDataList;
     }
 
+    /**
+     * Créé une liste de données (transaction par type et par mois) pour le graphique "Bar"
+     *
+     * @param transactions liste de transaction
+     * @return liste transactions mappées par type et par mois
+     */
     public static List<TotalBarChartDTO> createTransactionChartBar(List<Transaction> transactions) {
         // Type & Mois/Total
         Map<String, Map<Integer, Double>> transactionsByTypeAndMonth = new HashMap<>();
@@ -77,6 +89,12 @@ public class ChartHelper {
         return transactionLineChartDataList;
     }
 
+    /**
+     * Grouper les transactions par catégorie et par mois
+     *
+     * @param transactions                   liste de transactions
+     * @param transactionsByCategoryAndMonth transactions mappées par catégorie et par mois
+     */
     private static void groupTransactionByCategoryAndMonth(List<Transaction> transactions,
                                                            Map<String, Map<Integer, Double>> transactionsByCategoryAndMonth) {
         for (Transaction transaction : transactions) {
@@ -99,6 +117,12 @@ public class ChartHelper {
         }
     }
 
+    /**
+     * Grouper les transactions par type et par mois
+     *
+     * @param transactions               liste de transactions
+     * @param transactionsByTypeAndMonth transactions mappées
+     */
     private static void groupTransactionByTypeAndMonth(List<Transaction> transactions,
                                                        Map<String, Map<Integer, Double>> transactionsByTypeAndMonth) {
         for (Transaction transaction : transactions) {

@@ -42,18 +42,18 @@
                         /*[[${chartLineData}]]*/[],
                         /*[[${monthsSelectorList}]]*/[],
                         "chartLine",
-                        "Répartitions des dépenses par catégorie");
+                        "Répartitions des mouvements mensuels par catégorie");
                 </script>
             </div>
 
             <div class="graph-item-line-2">
-                <canvas id="chartLinee"></canvas>
+                <canvas id="chartBar"></canvas>
                 <script th:inline="javascript" type="application/javascript">
                     createChartBar(
                         /*[[${chartBarData}]]*/[],
                         /*[[${monthsSelectorList}]]*/[],
-                        "chartLinee",
-                        "Répartitions des dépenses par catégorie");
+                        "chartBar",
+                        "Budget mensuel");
                 </script>
             </div>
 

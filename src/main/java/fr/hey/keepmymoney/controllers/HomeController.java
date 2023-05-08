@@ -42,38 +42,39 @@ public class HomeController {
         // Récupération de l'utilisateur connecté
         User user = this.authenticationFacade.getUserAuth();
 
-        ModelAndView modelAndView = new ModelAndView("index");
-        List<Transaction> transactionList;
+        if (!ObjectUtils.isEmpty(user)) {
+            ModelAndView modelAndView = new ModelAndView("index");
+            List<Transaction> transactionList;
 
-        // Liste pour la sélection du mois
-        final List<String> MONTHS_SELECTOR_LIST = KeepMyMoneyUtils.monthList();
-        // Année et mois par défaut
-        final int TODAY_YEAR = LocalDate.now().getYear();
+            // Liste pour la sélection du mois
+            final List<String> MONTHS_SELECTOR_LIST = KeepMyMoneyUtils.monthList();
+            // Année et mois par défaut
+            final int TODAY_YEAR = LocalDate.now().getYear();
 
+            // Si le filtre de l'année est vide, on utilise par défaut l'année en cours
+            if (ObjectUtils.isEmpty(yearFilter)) {
+                transactionList = transactionService
+                        .findAllTransactionsByYearAndUserId(TODAY_YEAR, user.getId());
+            } else {
+                transactionList = transactionService
+                        .findAllTransactionsByYearAndUserId(yearFilter, user.getId());
+            }
+            // Création des données pour les graphiques
+            List<TransactionLineChartDTO> chartLineData = ChartHelper.createTransactionChartLine(transactionList);
+            List<TotalBarChartDTO> chartBarData = ChartHelper.createTransactionChartBar(transactionList);
 
-        if (ObjectUtils.isEmpty(yearFilter)) {
-            transactionList = transactionService
-                    .findAllTransactionsByYearAndUserId(TODAY_YEAR, user.getId());
-        } else {
-            transactionList = transactionService
-                    .findAllTransactionsByYearAndUserId(yearFilter, user.getId());
+            // Mapping des variables pour la vue
+            modelAndView.addObject("monthsSelectorList", MONTHS_SELECTOR_LIST);
+            modelAndView.addObject("defaultYear", TODAY_YEAR);
+            modelAndView.addObject("chartLineData", chartLineData);
+            modelAndView.addObject("chartBarData", chartBarData);
+
+            return modelAndView;
         }
-        List<TransactionLineChartDTO> chartLineData = ChartHelper.createTransactionChartLine(transactionList);
-        List<TotalBarChartDTO> chartBarData = ChartHelper.createTransactionChartBar(transactionList);
 
+        // Si login absent/incorrect retourne à la page login
+        return new ModelAndView("login");
 
-        System.out.println("###############################");
-        chartBarData.forEach(c -> System.out.println(c.toString()));
-        System.out.println("###############################");
-
-
-        modelAndView.addObject("monthsSelectorList", MONTHS_SELECTOR_LIST);
-        modelAndView.addObject("defaultYear", TODAY_YEAR);
-        modelAndView.addObject("chartLineData", chartLineData);
-        modelAndView.addObject("chartBarData", chartBarData);
-
-
-        return modelAndView;
     }
 
 
