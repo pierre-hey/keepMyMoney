@@ -12,7 +12,7 @@
 
 
 <div th:fragment="transactionForm" th:object="${transaction}">
-  <h1 th:text="${transaction.label} == null ? 'Créer une nouvelle transaction' : 'Modifier la transaction : ' + *{label}"></h1>
+  <h1 th:text="${transaction.id} == null ? 'Créer une nouvelle transaction' : 'Modifier la transaction : ' + *{label}"></h1>
 
   <div>
     <label> Date

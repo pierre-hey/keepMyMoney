@@ -129,4 +129,45 @@ public interface TransactionService {
      */
     Page<Transaction> findTransactionWithSpec(String label, Category category, EType type, LocalDate transactionDate, Integer dateMonth, Integer dateYear, Integer userId, Pageable pageable);
 
+
+    /**
+     * Recherche des transactions par type de leurs catégories et par id user
+     *
+     * @param type   type de la catégorie
+     * @param userId utilisateur id
+     * @return Liste de transactions
+     */
+    List<Transaction> findTransactionsWithCategoryTypeAndUser(EType type, Integer userId);
+
+    /**
+     * Recherche des transactions d'un utilisateur par type de catégorie pour un mois donné
+     *
+     * @param userId        utilisateur id
+     * @param dateMonth     mois
+     * @param category_type type de la catégorie des transactions
+     * @return Liste de transactions
+     */
+    List<Transaction> findTransactionsWithUserAndCategoryAndMonth(Integer userId, Integer dateMonth, EType category_type);
+
+
+    /**
+     * Recherche des transactions d'un utilisateur par type de catégorie pour un mois et une année donnés
+     *
+     * @param userId        utilisateur id
+     * @param dateMonth     mois
+     * @param dateYear      année
+     * @param category_type type de la catégorie des transactions
+     * @return Liste de transactions
+     */
+    List<Transaction> findTransactionsWithUserAndMonthAndYearAndCategory(Integer userId, Integer dateMonth, Integer dateYear,
+                                                                         EType category_type);
+
+
+    /**
+     * @param userId    utilisateur id
+     * @param dateMonth mois
+     * @param dateYear  année
+     * @return Liste de transactions
+     */
+    List<Transaction> findTransactionWithCriteria(Integer userId, Integer dateMonth, Integer dateYear);
 }

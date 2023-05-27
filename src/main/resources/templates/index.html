@@ -4,15 +4,71 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script th:src="@{/js/Chart.min.js}"></script>
+    <script th:src="@{/js/transactions-chart-line.js}"></script>
+    <script th:src="@{/js/transactions-chart-bar.js}"></script>
     <title>Index</title>
 
 </head>
 <body>
 <header th:replace="~{fragments/header :: header}"></header>
-<h1>Bienvenue sur Keep My Money</h1>
+<!--<h1>Bienvenue sur Keep My Money</h1>
 
 <form th:action="@{/magicButton}" method="post">
     <button type="submit">Magic Button</button>
-</form>
+</form>-->
+
+<div class="wrapper">
+    <div class="content-menu">
+        <form method="post" th:action="@{index}">
+
+            <label>Année
+                <input type="number" name="yearFilter"
+                       min="2020" max="2099"
+                       step="1"
+                       th:value="${param.year != null} ? ${param.year[0]} : ${defaultYear}"/>
+            </label>
+
+            <input type="submit">
+        </form>
+    </div>
+    <section class="content-center-row">
+
+        <div class="graph-container-line">
+            <div class="graph-item-line-1">
+                <canvas id="chartLine"></canvas>
+                <script th:inline="javascript" type="application/javascript">
+                    createChartLine(
+                        /*[[${chartLineData}]]*/[],
+                        /*[[${monthsSelectorList}]]*/[],
+                        "chartLine",
+                        "Répartitions des transactions mensuelles par catégorie");
+                </script>
+            </div>
+
+            <div class="graph-item-line-2">
+                <canvas id="chartBar"></canvas>
+                <script th:inline="javascript" type="application/javascript">
+                    createChartBar(
+                        /*[[${chartBarData}]]*/[],
+                        /*[[${monthsSelectorList}]]*/[],
+                        "chartBar",
+                        "Budget mensuel");
+                </script>
+            </div>
+
+        </div>
+
+    </section>
+</div> <!-- /wrapper -->
+
+
+
+
+
+
+
+
+
 </body>
 </html>

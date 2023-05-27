@@ -45,6 +45,100 @@ nav {
     justify-content: center;
     background-color: rgb(59, 59, 59);
 }
+.content-center-row {
+    display: flex; /* IE fix */
+    flex-direction: row;
+    flex: 01; /* occupe la largeur restante */
+    align-items: flex-start;
+    justify-content: center;
+    background-color: rgb(59, 59, 59);
+}
+.content-center-column {
+    display: flex; /* IE fix */
+    flex-direction: column;
+    flex: 01; /* occupe la largeur restante */
+    align-items: flex-start;
+    justify-content: center;
+    background-color: rgb(59, 59, 59);
+}
+/* Graphs */
+
+.graph-container-pie {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap:wrap;
+    width:100%;
+    height:100%;
+}
+.main-container > div {
+    padding: 0 2px;
+}
+
+.graph-item-pie-1{
+    height: 600px;
+    flex: 0 0 auto;
+
+    position:relative;
+    width: 40%;
+}
+
+.graph-item-pie-2{
+    height: 600px;
+    flex: 0 0 auto;
+
+    position:relative;
+    width: 40%;
+}
+
+.graph-container-line {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap:wrap;
+    width:100%;
+    height:100%;
+
+}
+.graph-container-line > div {
+    padding: 0 2px;
+}
+
+.graph-item-line-1{
+    flex: 0 0 auto;
+    height: 300px;
+    width: 100%;
+    position:relative;
+}
+
+.graph-item-line-2{
+    flex: 0 0 auto;
+    height: 300px;
+    width: 100%;
+    position:relative;
+}
+
+.chart-total{
+    text-align: center;
+}
+
+
+/* graphs */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Responsive */
 
@@ -82,7 +176,7 @@ body {
 }
 section {
     /* padding-right: 5px; */
-    padding: 10px 5px 0 2px;
+
     /* padding: 0px; */
     margin: 0;
     /* border: 2px solid #fff; */
@@ -184,7 +278,7 @@ select {
     color: #00ff15;
 }
 .login-form-item a:hover{
-    color: #00cf11;
+    color: #00ff15;
 }
 /* Fin login form */
 
@@ -476,6 +570,8 @@ table.money-table tbody {
 
 .content{
     display: block;
+
+    padding: 10px 5px 0 2px;
 }
 
 tbody td:last-child, thead th:last-child {
@@ -530,23 +626,22 @@ thead{
     top: 0;
 }
 .th-date{
-    width: 5%;
+    width: 10%;
 }
 .th-desi{
     width: 35%;
 }
 .th-dep{
-    width:5%;
+    width:10%;
 }
-
 .th-res{
-    width: 5%;
+    width: 10%;
 }
 .th-cat{
-    width: 15%;
+    width: 10%;
 }
 .th-per{
-    width:15%
+    width:20%
 }
 .th-act{
     width: 5%;
@@ -555,6 +650,22 @@ thead{
 
 table.money-table thead th:first-child {
     border-left: none;
+}
+.total{
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px;
+}
+.total>h3{
+    padding-left: 20px;
+}
+.total-income{
+color: #00ff15;
+}
+.total-expense{
+    color: #ff0000;
 }
 .pagination{
     position: sticky;
