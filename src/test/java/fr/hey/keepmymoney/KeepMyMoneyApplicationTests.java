@@ -9,5 +9,4 @@ class KeepMyMoneyApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

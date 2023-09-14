@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title>KeepMyMoney</title>
+
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+
+<div class="wrapper">
+    <section class="content-center">
+        <div class="login-form">
+            <form th:action="@{add}" method="post">
+                <div th:replace="~{fragments/transaction-fragment :: transactionForm}"></div>
+            </form>
+        </div>
+    </section>
+</div> <!-- /wrapper -->
+</body>
+</html>

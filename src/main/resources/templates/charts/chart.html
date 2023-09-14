@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script th:src="@{/js/Chart.min.js}"></script>
+    <script th:src="@{/js/transactions-chart-pie.js}"></script>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title>KeepMyMoney</title>
+</head>
+
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+
+
+<div class="wrapper">
+    <div class="content-menu">
+        <form method="post" th:action="@{graphs}">
+
+            <label>Mois
+                <select name="monthFilter">
+                    <option th:value="null">--Choisir un mois--</option>
+                    <option th:each="monthSelector, statIndex : ${monthsSelectorList}"
+                            th:value="${statIndex.index + 1 }"
+                            th:selected="${param.month != null} ? (${param.month[0] == (statIndex.index + 1).toString()} ? ${monthSelector})"
+                            th:text="${monthSelector}">
+                    </option>
+                </select>
+            </label>
+
+            <label>Année
+                <input type="number" name="yearFilter"
+                       min="2020" max="2099"
+                       step="1"
+                       th:value="${param.year != null} ? ${param.year[0]} : ${defaultYear}"/>
+            </label>
+            <input type="submit">
+        </form>
+    </div>
+    <section class="content-center-row">
+
+        <div class="graph-container-pie">
+            <div class="graph-item-pie-1">
+                <canvas id="chartExpense"></canvas>
+                <script th:inline="javascript" type="application/javascript">
+                    createChartPie(/*[[${chartDataExpenseTransactions}]]*/[],
+                        "chartExpense",
+                        "Répartitions des dépenses par catégorie");
+                </script>
+                <h4 class="chart-total" th:text="'Total : ' + ${totalExpense}"></h4>
+            </div>
+
+            <div class="graph-item-pie-2">
+                <canvas id="chartIncome"></canvas>
+                <script th:inline="javascript" type="application/javascript">
+                    createChartPie(/*[[${chartDataIncomeTransactions}]]*/[],
+                        "chartIncome",
+                        "Répartitions des revenus par catégorie");
+                </script>
+                <h4 class="chart-total" th:text="'Total : ' + ${totalIncome}"></h4>
+            </div>
+
+        </div>
+    </section>
+</div> <!-- /wrapper -->
+</body>
+</html>

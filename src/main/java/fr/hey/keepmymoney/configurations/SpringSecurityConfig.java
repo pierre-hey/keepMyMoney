@@ -1,6 +1,12 @@
 package fr.hey.keepmymoney.configurations;
 
+import org.apache.catalina.Context;
+import org.apache.catalina.connector.Connector;
+import org.apache.tomcat.util.descriptor.web.SecurityCollection;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,8 +37,18 @@ public class SpringSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
+/*                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
+                .portMapper()
+                .http(8080).mapsTo(8443) // Remplacez 8080 et 8443 par les ports appropriés
+                .and()
+                .addFilterBefore(new OncePerRequestRedirectFilter(), ChannelProcessingFilter.class)
+                .and()*/
+
+
+              /*  .and()
+                .addFilterBefore(new OncePerRequestRedirectFilter(), ChannelProcessingFilter.class)*/
+
                 .authorizeHttpRequests((authorize) -> authorize
                                 // Autorise tout le monde à accéder à la lecture des ressources CSS, JS, img
                                 .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
@@ -42,6 +58,7 @@ public class SpringSecurityConfig {
                                 .requestMatchers("/register/**").permitAll()
                                 // Autorise tout le monde
                                 .requestMatchers("/poc/all").permitAll()
+                                .requestMatchers("/magicButton").permitAll()
                                 // Autorise uniquement les utilisateurs connectés
                                 .requestMatchers("/poc/auth").authenticated()
                                 // Autorise uniquement les utilisateurs connectés avec le role "ADMIN"
@@ -61,8 +78,6 @@ public class SpringSecurityConfig {
 
                                 //.requestMatchers("/templates/fragments/header.html").permitAll()
                                 .anyRequest().authenticated()
-
-
                 )
                 .formLogin(
                         form -> form
@@ -79,9 +94,16 @@ public class SpringSecurityConfig {
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
-                );
-
-
+                )
+                .requiresChannel(channel -> channel
+                        .anyRequest().requiresSecure())
+//                .portMapper()
+//                .http(8080).mapsTo(8443)
+//                .http(80).mapsTo(443)
+//                .and()
+/*                .csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())*/
+        ;
         return http.build();
     }
 
@@ -107,5 +129,42 @@ public class SpringSecurityConfig {
                 .build();
         return new InMemoryUserDetailsManager(user, admin);
     }*/
+
+
+    /**
+     * Redirection des requetes http vers https
+     */
+    @Bean
+    public ServletWebServerFactory servletContainer() {
+        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {@Override
+        protected void postProcessContext(Context context) {
+            SecurityConstraint securityConstraint = new SecurityConstraint();
+            securityConstraint.setUserConstraint("CONFIDENTIAL");
+            SecurityCollection collection = new SecurityCollection();
+            collection.addPattern("/*");
+            securityConstraint.addCollection(collection);
+            context.addConstraint(securityConstraint);
+        }
+        };
+        tomcat.addAdditionalTomcatConnectors(redirectConnector());
+        return tomcat;
+    }
+
+    private Connector redirectConnector() {
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setScheme("http");
+        connector.setPort(8080);
+        connector.setSecure(false);
+        connector.setRedirectPort(8443);
+        return connector;
+    }
+
+
+
+
+
+
+
+
 
 }

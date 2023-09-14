@@ -23,19 +23,6 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @GetMapping({"index","/"})
-    public String home(){
-        //createDevUser();
-
-        return "index";
-    }
-    private void createDevUser() {
-        userService.mockCreateUserIfNotExists("user",List.of("ROLE_USER"));
-        userService.mockCreateUserIfNotExists("admin",List.of("ROLE_ADMIN"));
-        userService.mockCreateUserIfNotExists("pierre", List.of("ROLE_ADMIN", "ROLE_USER"));
-
-    }
-
     @GetMapping("/login")
     public String loginForm() {
         return "login";
@@ -73,4 +60,22 @@ public class AuthController {
         model.addAttribute("users", users);
         return "users";
     }
+
+
+    @PostMapping("/magicButton")
+    public String magicButton()
+    {
+        System.out.println("############################");
+        System.out.println("BOUTON MAGIQUE PRESSE");
+        System.out.println("############################");
+        createDevUser();
+        return "redirect:/index";
+    }
+    private void createDevUser() {
+        userService.mockCreateUserIfNotExists("user",List.of("ROLE_USER"));
+        userService.mockCreateUserIfNotExists("admin",List.of("ROLE_ADMIN"));
+        userService.mockCreateUserIfNotExists("pierre", List.of("ROLE_ADMIN", "ROLE_USER"));
+
+    }
+
 }
