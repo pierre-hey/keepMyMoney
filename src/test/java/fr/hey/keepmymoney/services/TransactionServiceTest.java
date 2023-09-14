@@ -75,7 +75,8 @@ public class TransactionServiceTest {
         transaction.setTransactionDate(LocalDate.now());
         transactionService.createTransactionWithPeriod(transaction);
         logger.info(String.format("Transaction ajoutée : %s", transaction));
-        transactionsSize++;
+        // Ajout de 12 transactions pour la catégorie salaire
+        transactionsSize += 12;
 
         List<Transaction> transactionsAfter = transactionService.findAllTransactionsByUserId(user.getId());
 
