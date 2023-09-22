@@ -32,10 +32,13 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void createTransactionWithPeriod(Transaction transaction) {
-        // A la création d'une transaction, en fonction de la périodicité du type, il faut créer les transactions des périodes suivantes sur 1 année
+        // A la création d'une transaction, en fonction de la périodicité du type,
+        // il faut créer les transactions des périodes suivantes sur 1 année
         final int NUMBER_MONTH_IN_YEAR = 12;
         final int NUMBER_WEEK_IN_YEAR = 52;
         final int NUMBER_QUARTERLY = 4;
+        final int NUMBER_ANNUAL = 1;
+        final int NUMBER_BIANNUAL = 2;
         // Enregistre la 1ère transaction (identique au ponctuel/annuel)
 
 
@@ -47,16 +50,11 @@ public class TransactionServiceImpl implements TransactionService {
             case MONTHLY -> createTransactionsWithDuration(transaction, NUMBER_MONTH_IN_YEAR);
             // Trimestrielle - 3 fois par an
             case QUARTERLY -> createTransactionsWithDuration(transaction, NUMBER_QUARTERLY);
-            case BIMONTHLY -> {
-                // Semestrielle - 2 fois par an
-                // do some stuff
-            }
-            case ANNUAL -> {
-                // Par année
-                // do some stuff
-            }
+            // Annuelle - 1 fois par an
+            case ANNUAL -> createTransactionsWithDuration(transaction, NUMBER_ANNUAL);
+            // Semestrielle - 2 fois par an
+            case BIANNUAL -> createTransactionsWithDuration(transaction, NUMBER_BIANNUAL);
         }
-
 
     }
 
@@ -94,6 +92,14 @@ public class TransactionServiceImpl implements TransactionService {
             // Si la transaction est trimestrielle, on ajoute 3 mois à la date de la prochaine transaction
             if (transaction.getCategory().getPeriod().equals(EPeriod.QUARTERLY)) {
                 startDate = dateToCreate.plusMonths(3);
+            }
+            // Si la transaction est annuelle, on ajoute 12 mois à la date de la prochaine transaction
+            if (transaction.getCategory().getPeriod().equals(EPeriod.ANNUAL)) {
+                startDate = dateToCreate.plusMonths(12);
+            }
+            // Si la transaction est semestrielle, on ajoute 6 mois à la date de la prochaine transaction
+            if (transaction.getCategory().getPeriod().equals(EPeriod.BIANNUAL)) {
+                startDate = dateToCreate.plusMonths(6);
             }
         }
         transactionRepository.saveAll(transactionList);
@@ -138,7 +144,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> findAllTransactionsByYearAndUserId(int dateYear, Integer userId) {
-       return transactionRepository.findByDateYearAndUserId(dateYear, userId);
+        return transactionRepository.findByDateYearAndUserId(dateYear, userId);
     }
 
     @Override
@@ -200,8 +206,9 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> findTransactionsWithUserAndMonthAndYearAndCategory(Integer userId, Integer dateMonth, Integer dateYear, EType category_type) {
         return transactionRepository.findTransactionByUserAndMonthAndYearAndCategoryType(userId, dateMonth, dateYear, category_type);
     }
+
     @Override
-    public List<Transaction> findTransactionWithCriteria(Integer userId, Integer dateMonth, Integer dateYear){
+    public List<Transaction> findTransactionWithCriteria(Integer userId, Integer dateMonth, Integer dateYear) {
 
         Specification<Transaction> spec = Specification.where((root, query, builder) -> builder.equal(root.get("user"), userId));
 

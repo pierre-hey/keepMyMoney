@@ -5,8 +5,8 @@ public enum EPeriod {
     WEEKLY("Hebdomadaire"),
     MONTHLY("Mensuelle"),
     QUARTERLY("Trimestrielle"),
-    BIMONTHLY("Bimensuelle"),
     ANNUAL("Annuelle"),
+    BIANNUAL("Semestrielle"),
     ;
 
     private final String displayValue;
