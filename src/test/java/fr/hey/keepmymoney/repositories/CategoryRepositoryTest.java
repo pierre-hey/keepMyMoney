@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class CategoryRepositoryTest {
@@ -43,6 +44,7 @@ public class CategoryRepositoryTest {
         List<Category> categoryListAfter = categoryRepository.findAll();
 
         assertEquals(categorySize ,  categoryListAfter.size());
+        assertTrue(categoryListAfter.contains(category));
 
     }
 
