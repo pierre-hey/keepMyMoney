@@ -2,6 +2,7 @@ package fr.hey.keepmymoney.services.impl;
 
 import fr.hey.keepmymoney.entities.Category;
 import fr.hey.keepmymoney.entities.Transaction;
+import fr.hey.keepmymoney.entities.User;
 import fr.hey.keepmymoney.entities.enumerations.EPeriod;
 import fr.hey.keepmymoney.entities.enumerations.EType;
 import fr.hey.keepmymoney.repositories.TransactionRepository;
@@ -169,10 +170,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Page<Transaction> findTransactionWithSpec(String label, Category category, EType type,
                                                      LocalDate transactionDate, Integer dateMonth, Integer dateYear,
-                                                     Integer userId,
+                                                     User user,
                                                      Pageable pageable) {
 
-        Specification<Transaction> spec = Specification.where((root, query, builder) -> builder.equal(root.get("user"), userId));
+        Specification<Transaction> spec = Specification.where((root, query, builder) -> builder.equal(root.get("user"), user));
 
         if (!ObjectUtils.isEmpty(label)) {
             spec = spec.and((root, query, builder)

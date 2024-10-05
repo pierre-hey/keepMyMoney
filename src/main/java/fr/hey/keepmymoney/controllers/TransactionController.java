@@ -94,7 +94,7 @@ public class TransactionController {
             Page<Transaction> transactionList = transactionService.findTransactionWithSpec(
                     labelFilter, categoryFilter, typeFilter,
                     dateFilter, monthFilter, yearFilter,
-                    user.getId(),
+                    user,
                     paging);
 
             // Redéfinis le nombre de pages total à afficher dans le footer du tableau

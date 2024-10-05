@@ -2,6 +2,7 @@ package fr.hey.keepmymoney.services;
 
 import fr.hey.keepmymoney.entities.Category;
 import fr.hey.keepmymoney.entities.Transaction;
+import fr.hey.keepmymoney.entities.User;
 import fr.hey.keepmymoney.entities.enumerations.EType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -124,10 +125,10 @@ public interface TransactionService {
      * @param transactionDate filtre date
      * @param dateMonth       filtre mois
      * @param dateYear        filtre année
-     * @param userId          filtre utilisateur
+     * @param user            filtre utilisateur
      * @return Page de transaction
      */
-    Page<Transaction> findTransactionWithSpec(String label, Category category, EType type, LocalDate transactionDate, Integer dateMonth, Integer dateYear, Integer userId, Pageable pageable);
+    Page<Transaction> findTransactionWithSpec(String label, Category category, EType type, LocalDate transactionDate, Integer dateMonth, Integer dateYear, User user, Pageable pageable);
 
 
     /**
