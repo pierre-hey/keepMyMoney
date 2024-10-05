@@ -63,7 +63,7 @@ public class ChartController {
 
             // Récupération des transactions
             List<Transaction> transactionList = transactionService
-                    .findTransactionWithCriteria(user.getId(), monthFilter, yearFilter);
+                    .findTransactionWithCriteria(user, monthFilter, yearFilter);
 
             List<Transaction> expenseTransactions = new ArrayList<>();
             List<Transaction> incomeTransactions = new ArrayList<>();

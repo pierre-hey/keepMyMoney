@@ -165,10 +165,10 @@ public interface TransactionService {
 
 
     /**
-     * @param userId    utilisateur id
+     * @param user      utilisateur
      * @param dateMonth mois
      * @param dateYear  année
      * @return Liste de transactions
      */
-    List<Transaction> findTransactionWithCriteria(Integer userId, Integer dateMonth, Integer dateYear);
+    List<Transaction> findTransactionWithCriteria(User user, Integer dateMonth, Integer dateYear);
 }

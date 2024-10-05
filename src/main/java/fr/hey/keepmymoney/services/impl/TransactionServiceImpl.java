@@ -209,9 +209,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> findTransactionWithCriteria(Integer userId, Integer dateMonth, Integer dateYear) {
+    public List<Transaction> findTransactionWithCriteria(User user, Integer dateMonth, Integer dateYear) {
 
-        Specification<Transaction> spec = Specification.where((root, query, builder) -> builder.equal(root.get("user"), userId));
+        Specification<Transaction> spec = Specification.where((root, query, builder) -> builder.equal(root.get("user"), user));
 
         spec = getTransactionSpecificationWithMonthAndYear(dateMonth, dateYear, spec);
 
